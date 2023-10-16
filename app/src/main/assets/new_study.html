@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link href="css/icons.css" rel="stylesheet">
+    <link href="css/irregular.css" rel="stylesheet">
+    <style>
+            *{
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+    }
+
+.card {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  margin: 5vw;
+  padding: 15px;
+  width: 90vw;
+  min-height: 100px;
+  border-radius: 10px;
+  box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.25);
+  transition: all 0.2s;
+  box-sizing:border-box;
+  position: relative;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.card:hover {
+  box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.4);
+  transform: scale(1.01);
+}
+.card__descriptionk, .card__title{
+	display: flex;
+	align-items: center;
+}
+.card__description{
+  position: relative;
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 12px;
+  margin: 10px 0;
+}
+
+.card__title{
+  font-weight: 400;
+  color: #ffffff;
+  position: relative;
+  margin: 20px 0;
+}
+.card__title i{
+    margin-right:5px;
+    font-size: 30px;
+}
+
+.card-1 {
+  background-image: url('image/study/card_1.jpg');
+}
+.card-2 {
+  background-image: url('image/study/card_2.jpg');
+}
+.card.reading{
+  background-image: url('image/study/card_reading.jpg');
+
+}
+.card-3 {
+  background-image: url('image/study/card.jpeg');
+}
+
+
+
+
+
+.card:before{
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    top:0;
+    left:0;
+    border-radius: 10px;
+}
+/*section.reading{
+width: 160px;
+height: 160px;
+border-radius:10px;
+    background: url(image/study/reading.jpeg);
+    background-color: #E5D3C0;
+    background-size: 80%;
+    color:white;
+    padding:10px;
+    font-size: 20px;
+    background-position:right bottom;
+    background-repeat:no-repeat;
+    margin-left: 5vw;
+    box-shadow: rgba(229, 211, 192, 0.8) 0px 5px 15px;
+	margin-top: 20px;
+}*/
+.circle_wrap{
+    position: absolute;
+    width:100%;
+    height:100%;
+    top:0;
+    left: 0;
+    overflow: hidden;
+    visibility: hidden;
+}
+.circle_wrap .circle{
+    position: absolute;
+    width: 0;
+    height:0;
+    background-color: #f5f5f6;
+    border-radius: 50%;
+    bottom:0;
+    left: 0;
+    transform: translate(-50%, 50%);
+    transition: all 1s ease-in-out;
+}
+.circle_wrap .card_wrap{
+    width: 100%;
+    height:100%;
+}
+.circle_wrap.active{
+    visibility: visible;
+}
+.circle_wrap.active .circle{
+        width: 250vh;
+    height: 250vh;
+}
+.circle_wrap.active .card_wrap .card{
+    animation-name:fadeInRight;
+}
+
+    .container {
+      position: absolute;
+      width:100%;
+      height:100%;
+      background: #f5f5f6;
+      overflow: hidden;
+      top: 0;
+      left:0;
+      visibility: hidden;
+      opacity: 0;
+      transition: 1s all;
+    }
+    .container.active{
+        visibility: visible;
+        opacity: 1;
+    }
+
+    .text {
+      position: relative;
+      z-index: 1;
+      font-family: sans-serif;
+      font-size: 16px;
+      line-height: 1.5em;
+      color: #1c1b20;
+      padding: 20px;
+    }
+
+
+
+    .text span {
+      position: relative;
+      z-index: 3;
+      display: inline-block;
+      transition: all 0.2s ease-in-out;
+     font-family: sans-serif;
+    }
+
+    .text span.active {
+      transform: translateX(-100%);
+      opacity: 0;
+    }
+
+    .quest{
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top:0;
+      left:0;
+      z-index: 3;
+    }
+
+    ul,li{
+      list-style: none;
+    }
+    ul{
+      width: 100%;
+    }
+    li{
+      margin: 10px 5vw;
+      padding: 10px;
+      border-radius: 5px;
+      border-bottom: 2px dashed #eee;
+    }
+    .sortable-ghost {
+  opacity: 0;
+}
+ li p{
+     color: #60b7f1;
+     font-family: sans-serif;
+ }
+ .fail-alert{
+     position: absolute;
+  width: 100%;
+  padding: 20px 0;
+  background: rgba(0,0,0);
+  z-index: 20;
+  color: white;
+  opacity: 0.7;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.8em;
+  font-family: sans-serif;
+  top: 50%;
+  transform: translateY(-50%);
+visibility: hidden;
+opacity: 0;
+transition: all .2s
+ }
+ .fail-alert.active{
+ visibility: visible;
+ opacity: 0.7;
+ }
+ button{
+      border: none;
+    background: #60b7f1;
+    padding: 10px 20px;
+    font-size: 20px;
+    border-radius: 5px;
+    color: white;
+    box-sizing: border-box;
+    margin-top: 50px;
+ }
+ li.success{
+  border-left: 2px solid lime;
+ }
+ li.fail{
+  border-left: 2px solid red;
+ }
+
+ .top-bar{
+  color: #60b7f1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding:10px;
+ }
+  .timer{
+  font-family: sans-serif;
+  width: 100%;
+  text-align: center;
+ }
+ .heart{
+  display: flex;
+ }
+
+      .glass-morph-time{
+      background: rgba( 255, 255, 255, 0.25 );
+box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+backdrop-filter: blur( 4px );
+-webkit-backdrop-filter: blur( 4px );
+border-radius: 10px;
+border: 1px solid rgba( 255, 255, 255, 0.18 );
+position: absolute;
+width: 100%;
+height:100%;
+            visibility: hidden;
+            opacity: 0;
+            transition: 0.3s all;
+            z-index: 100;
+      }
+
+         #time{
+            display: flex;
+            position: absolute;
+            top:50%;
+            left:50%;
+            transform: translate(-50%, -50%);
+        }
+        .glass-morph-time.active{
+            visibility: visible;
+            opacity: 1;
+        }
+      .timer-circle{
+        position: relative;
+        width: 150px;
+        height: 150px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+      }
+      .timer-circle svg{
+        position: relative;
+        width: 150px;
+        height: 150px;
+        transform: rotate(270deg);
+      }
+      .timer-circle svg circle{
+        width:100%;
+        height:100%;
+        fill: #2f363e;
+        stroke-width: 8;
+        stroke: transparent;
+        stroke-linecap: round;
+        transform: translate(5px, 5px);
+      }
+      .timer-circle svg circle:nth-child(2){
+        stroke: #04fc43;
+        stroke-dasharray: 440;
+        stroke-dashoffset: 0;
+        transition: 0.3s all;
+      }
+      .timer-circle div{
+        position: absolute;
+        text-align: center;
+        font-weight: 500;
+        color: white;
+        font-size: 1.5em;
+      }
+      #time .dots{
+        position: absolute;
+        width:100%;
+        height:100%;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        z-index: 1000;
+        transition: 0.3s all;
+        transform: rotateZ(360deg);
+      }
+      #time .dots::before{
+        content: '';
+        position: absolute;
+        top: -3px;
+        width:15px;
+        height:15px;
+        background: #04fc43;
+        border-radius: 50%;
+        box-shadow: 0 0 20px #04fc43, 0 0 60px #04fc43;
+      }
+
+	</style>
+</head>
+<body>
+<div class="card card-1">
+    <h2 class="card__title"><i class="material-icons">bolt</i>Irregular Verbs</h2>
+    <p class="card__apply">
+    <div class="card__description" href="#">Розвиває швидкість читання та сприйняття прочитаного</div>
+    </p>
+</div>
+<div class="card card-2">
+    <h2 class="card__title"><i class="material-icons">bolt</i>Irregular Verbs</h2>
+    <p class="card__apply">
+    <div class="card__description" href="#">Розвиває швидкість читання та сприйняття прочитаного</div>
+    </p>
+</div>
+
+<div class="card reading">
+    <h2 class="card__title"><i class="material-icons">bolt</i>Читання</h2>
+    <p class="card__apply">
+    <div class="card__description" href="#">Розвиває швидкість читання та сприйняття прочитаного</div>
+    </p>
+</div>
+
+<!--<section class="reading">
+    Читання
+</section>-->
+<section class="circle_wrap">
+    <div class="circle"></div>
+    <div class="card_wrap">
+
+        <div class="card card-3 animate__animated">
+            <h2 class="card__title"><i class="material-icons">bolt</i>Віднови історію</h2>
+            <p class="card__apply">
+            <div class="card__description">Розвиває навички читання та розуміння тексту</div>
+            </p>
+        </div>
+
+    </div>
+    <div class="container">
+        <div class="glass-morph-time">
+        <div id="time">
+            <div class="timer-circle">
+                <div class="dots sec_dot"></div>
+                <svg>
+                    <circle cx="70" cy="70" r="70"></circle>
+                    <circle cx="70" cy="70" r="70" class="ss"></circle>
+                </svg>
+                <div class="seconds">5</div>
+            </div>
+        </div>
+        </div>
+
+        <div class="top-bar"><i class="material-icons">close</i>
+
+            <div class="heart">
+                <i class="material-icons">favorite</i>
+                <i class="material-icons">favorite</i>
+                <i class="material-icons">favorite</i>
+            </div>
+        </div>
+        <div class="text"></div>
+        <ul></ul>
+    </div>
+
+    <div class="fail-alert"></div>
+
+    <!-- ------------------------------------------- -->
+    <div class="irregular_wrap">
+        <header>
+            <div class="search_bar">
+                <div class="middle"><i class="material-icons">keyboard_arrow_left</i> <div class="title">Learn</div> </div>
+                <i class="material-icons">search</i>
+            </div>
+            <div class="filter_bar middle">
+                <div class="letter">A</div>
+                <div class="letter">B</div>
+                <div class="letter">C</div>
+                <div class="letter">D</div>
+                <div class="letter">E</div>
+                <div class="letter">F</div>
+                <div class="letter">G</div>
+                <div class="letter">H</div>
+                <div class="letter">K</div>
+                <div class="letter">L</div>
+                <div class="letter">M</div>
+                <div class="letter">O</div>
+                <div class="letter">P</div>
+                <div class="letter">R</div>
+                <div class="letter">S</div>
+                <div class="letter">T</div>
+                <div class="letter">U</div>
+                <div class="letter">W</div>
+            </div>
+        </header>
+
+
+
+
+        <table></table>
+
+        <div class="run_test">Розпочати тестування</div>
+
+        <div class="details">
+            <div class="details_card">
+                <i class="material-icons close">close</i>
+                <div class="infinitive"><div class="lvl advanced"></div><span>arise</span> <i class="material-icons">volume_up</i></div>
+                <div class="sim_part">arose / arisen</div>
+                <div class="example"><div class="example_title">EXAMPLE</div><div class="text">Most conflicts arise from ignorance or uncertainty.</div></div>
+            </div>
+        </div>
+    </div>
+    <!-- -------------------------------------------- -->
+
+</section>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js" integrity="sha512-Eezs+g9Lq4TCCq0wae01s9PuNWzHYoCMkE97e2qdkYthpI0pzC3UGB03lgEHn2XM85hDOUF6qgqqszs+iXU4UA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script src="js/irregular.js"></script>
+<script>
+    const list = document.querySelector("ul");
+ let interval;
+ let text = document.querySelector('.text');
+ let hearts = document.querySelectorAll(".heart i");
+ let failAlert = document.querySelector(".fail-alert");
+ let seconds = document.querySelector('.seconds');
+ let ss = document.querySelector('.ss');
+ let sec_dot = document.querySelector('.sec_dot');
+ let countFails = 0;
+
+ function showAlert(text) {
+     failAlert.innerText = text;
+     failAlert.classList.add("active");
+ }
+
+ function startTimer(parent, beforeEl) {
+
+     let minutes = 2;
+     let seconds = 0;
+     let timer = document.createElement("div");
+     timer.classList = "timer animate__animated animate__fadeInDown";
+     timer.innerText = "2:00";
+     parent.insertBefore(timer, beforeEl);
+     interval = setInterval(function() {
+         if (seconds == 0) {
+             if (minutes == 0) {
+                 clearInterval(interval);
+                 showAlert("ЧАС ВИЙШОВ!");
+             } else {
+                 minutes--;
+                 seconds = 59;
+             }
+         } else {
+             seconds--;
+         }
+
+         timer.innerText = ('0' + minutes).slice(-2) + ':' + ('0' + seconds).slice(-2);
+     }, 1000);
+ }
+
+ function resetTimer() {
+     clearInterval(interval);
+     timer.innerText = '02:00';
+ }
+
+ function splitText(text, maxLength) {
+     let words = text.split(' ');
+     let result = [];
+     let currentLine = '';
+     for (let i = 0; i < words.length; i++) {
+         let word = words[i];
+         if (currentLine.length + word.length + 1 <= maxLength) {
+             currentLine += ' ' + word;
+         } else {
+             result.push(currentLine.trim());
+             currentLine = word;
+         }
+     }
+     result.push(currentLine.trim());
+     return result;
+ }
+ shuffleArray = (array) => {
+     for (let i = array.length - 1; i > 0; i--) {
+         const j = Math.floor(Math.random() * (i + 1));
+         [array[i], array[j]] = [array[j], array[i]];
+     }
+     return array;
+ }
+ startQuest = () => {
+     let maxLength = 100;
+     text.remove();
+     let result = splitText(stringText, maxLength);
+     startTimer(document.querySelector(".container .top-bar"), document.querySelector(".container .top-bar .heart"));
+     let itemsList = [];
+
+     result.forEach((item, i) => {
+         const itemSortableList = document.createElement("li");
+         itemSortableList.classList = "animate__animated animate__fadeInRight";
+         itemSortableList.dataset.id = i;
+         itemSortableList.innerHTML = `<p>${item}</p>`;
+         itemsList.push(itemSortableList);
+     })
+
+     shuffleArray(itemsList).forEach((item, i) => {
+         item.style = `animation-delay: ${i*0.5}s;`;
+         list.appendChild(item);
+         setTimeout(() => {
+             item.classList.remove('animate__animated', 'animate__fadeInRight')
+         }, (i * 500 + 1000))
+     })
+     let center = document.createElement("center");
+     let button = document.createElement("button");
+     button.innerText = "Перевірити";
+     button.classList = "animate__animated animate__fadeInUp";
+     button.addEventListener("click", () => {
+         let isFail = false;
+         list.querySelectorAll("li").forEach((item, i) => {
+             if (item.dataset.id != i) {
+                 isFail = true;
+                 item.classList = "fail"
+             } else {
+                 item.classList = "success"
+             }
+         })
+
+         if (isFail) {
+             console.log("fail")
+             hearts[countFails].innerText = "favorite_border"
+             if (countFails == 2) showAlert("СПРОБИ ЗАКІНЧИЛИСЬ!");
+             countFails++;
+         } else {
+
+         }
+     })
+     center.appendChild(button);
+     document.querySelector(".container").appendChild(center);
+
+     new Sortable(list, {
+         animation: 150
+     })
+
+
+ }
+ let stringText = "My hometown is a small town in the countryside of England. It is a peaceful place with friendly people and beautiful scenery. The town has a few shops, a post office, and a small library. There is also a park where people can walk their dogs or have a picnic. The town is surrounded by fields and forests, which are perfect for hiking and exploring. In the summer, there is a local festival with music, food, and games for the children. Overall, my hometown is a lovely place to live.";
+ let spans = stringText.split('').map(function(char) {
+     if (char == ' ') return '</span> <span>'
+     if (char == '.') return '<span>.</span><br>'
+     else return '<span>' + char + '</span>';
+ });
+ text.innerHTML = `<span>${spans.join('')}`;
+ let index = 0;
+ spans = text.querySelectorAll('span span');
+
+ function animateText() {
+     let span = spans[index];
+     span.classList.add('active');
+     index++;
+     if (index >= spans.length) {
+         clearInterval(interval);
+         startQuest()
+     }
+ }
+
+
+
+ document.querySelector('.reading').addEventListener('click', () => {
+     document.querySelector('.circle_wrap').classList.add('active');
+ });
+
+ document.querySelector('.card.card-3').addEventListener('click', () => {
+     parent.postMessage("full", "*");
+     document.querySelector('.card.card-3').style.animationName = "fadeOutRight";
+     document.querySelector('.container').classList.add("active");
+     document.querySelector('.glass-morph-time').classList.add("active");
+
+     setTimeout(() => {
+
+        let countdown = 5;
+        let x = setInterval(()=>{
+            sec_dot.style.transform = `rotateZ(${countdown * 72}deg)`
+            seconds.innerText = Math.floor(countdown);
+            ss.style.strokeDashoffset = 440 - (440 * countdown) / 5;
+            countdown-=0.1;
+            if(countdown <= 0) {
+                clearInterval(x);
+                document.querySelector('.glass-morph-time').classList.remove("active");
+                interval = setInterval(animateText, 60);
+            }
+        },100);
+     }, 1000);
+ });
+
+</script>
+
+</body>
+</html>

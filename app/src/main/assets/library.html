@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<link href='css/boxicons.min.css' rel='stylesheet'>
+	<link href='css/icons.css' rel='stylesheet'>
+	<style>
+		@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@500&display=swap');
+*{
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+}
+body{
+padding-bottom:40px;
+}
+body.block{
+overflow:hidden;
+}
+header{
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	padding: 10px;
+}
+header .search_trigger{
+	color: #9b9a9e;
+	font-size: 24px;
+}
+header .library{
+	font-family: 'Caveat', cursive;
+	font-size: 25px;
+}
+.scrolling-wrapper {
+  overflow-x: scroll;
+  overflow-y: hidden;
+  white-space: nowrap;
+  scroll-snap-type:x proximity;
+  margin:25px 0;
+  display: flex;
+}
+.genres_data{
+	display: block;
+	margin:0 0 50px 0;
+}
+  .card{
+      scroll-snap-align: center;
+            margin:0 10px;
+        }
+        .card img.cover{
+            width: 135px;
+            height:200px;
+      border-radius:6px;
+     box-shadow: rgba(0, 0, 0, 0.45) 0px 25px 20px -20px;
+     }
+    .card .img{
+      position:relative;
+    }
+
+    .card .icon{
+      position:absolute;
+	  bottom:13px;
+	  left:10px;
+    }
+.card .icon .cover_book,.card .icon .cover_headphones{
+	background-color:rgb(0,0,0);
+	padding:5px;
+	border-radius:50%;
+	width:25px;
+	height:25px;
+	display:inline-flex;
+	justify-content:center;
+	align-items:center;
+	box-sizing:border-box;
+	opacity:0.6;
+}
+.card .icon img{
+  height:100%;
+}
+.card .title{
+   overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  white-space: normal;
+  width: 150px;
+}
+
+.title,.author{
+font-family: sans-serif;
+line-height:22px;
+}
+        .title{
+            color:#4b4c4e;
+      font-size:14px;
+        }
+        .author{
+            color: #bfc3c6;
+      font-size:12px;
+        }
+        .continue-read-wrap{
+        	display:block;
+        }
+        .continue-read-wrap.hide{
+        	display: none;
+        }
+        .continue-read{
+            display: flex;
+            align-items: center;
+            margin-left: 10px;
+            font-family: sans-serif;
+        }
+
+        .continue-read-description{
+            margin-left: 20px;
+        }
+        .continue-read-image img{
+            width: 115px;
+            height:160px;
+      border-radius:6px;
+     box-shadow: rgba(0, 0, 0, 0.45) 0px 25px 20px -20px;
+        }
+        .continue-read-title{
+            color: #65c9c7;
+            font-size: 20px;
+            padding: 5px 0;
+        }
+        .continue-read-author{
+            font-size: 12px;
+            padding: 2px 0 5px 0;
+        }
+        .continue-read-short{
+            font-size: 10px;
+            color: #c5c5c5;
+        }
+        .read_progress{
+            width: 90%;
+            height: 3px;
+            border-radius: 10px;
+            background: #c5c5c5;
+            margin-top: 10px;
+            position: relative;
+        }
+        .read_progress div{
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            background: #65c9c7;
+        }
+        .section-title{
+            color: #737373;
+            font-size: 20px;
+            font-family: sans-serif;
+            padding:15px 13px;
+            font-weight: bold;
+        }
+        .genre-card{
+        height:150px;
+        width:300px;
+        position:relative;
+        scroll-snap-align: center;
+        margin:0 10px;
+        display: inline-block;
+        }
+        .genre-card-image{
+        position:absolute;
+        width:100%;
+        height:100%;
+        }
+        .genre-card-image img{
+        width:100%;
+        height:100%;
+        object-fit:cover;
+        border-radius:10px;
+        }
+        .genre-card-title{
+        position:absolute;
+        font-family: sans-serif;
+        font-size:20px;
+        bottom:10px;
+        left:10px;
+        color:white;
+        font-weight: bold;
+        }
+	</style>
+	<style>
+.search_book_bg {
+	visibility:hidden;
+	transition:1s all;
+	position:absolute;
+	width:100%;
+	height:100%;
+	top:0;
+	left: 0;
+	z-index:101;
+	opacity:0;
+	background: rgba( 0, 0, 0, 0.65 );
+	box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+	backdrop-filter: blur( 20px );
+	-webkit-backdrop-filter: blur( 20px );
+	border: 1px solid rgba( 255, 255, 255, 0.18 );
+}
+
+.search_book_bg.active {
+	visibility:visible;
+	opacity:1;
+}
+.blur_background{
+	position:fixed;
+	top:0;
+	left:0;
+	width:100%;
+	height:100%;
+	background: rgba( 0, 0, 0, 0.5 );
+	box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+	backdrop-filter: blur( 6px );
+	-webkit-backdrop-filter: blur( 6px );
+	border: 1px solid rgba( 255, 255, 255, 0.18 );
+	z-index:1;
+}
+.book_description {
+	bottom:0;
+	position:fixed;
+	width:100%;
+	padding: 0 15px 20px 15px;
+	background-color:#fff;
+	box-sizing:border-box;
+	z-index:2;
+}
+
+.book_description, .blur_background{
+	opacity: 0;
+	visibility: hidden;
+	transition: opacity 0.5s;
+}
+
+.book_description.active, .blur_background.active {
+	opacity: 1;
+	visibility: visible;
+}
+
+.head_description .back img{
+	width: 32px;
+	margin:10px 0 5px 0;
+}
+.preview{
+	width:100%;
+	display:flex;
+	justify-content: center;
+	align-items: center;
+}
+.book_image_description img{
+	height: 200px;
+	box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+    border-radius: 6px;
+}
+}
+.info_book_description{
+	margin-left: 20px;
+}
+.info_book_description .author_description{
+	font-size:12px;
+	color:#c5c5ca;
+	font-family: 'Roboto', sans-serif;
+}
+.btn_group{
+	display: flex;
+	justify-content: center;
+}
+.btn_group div{
+	background-color: #60b7f1;
+	padding: 7px 23px;
+	margin: 15px;
+	border-radius: 5px;
+	color: white;
+	font-size:18px;
+	font-family: 'Roboto', sans-serif;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.btn_group div img{
+	height: 18px;
+	margin-right: 5px;
+}
+.loadBookProgress{
+	position:relative;
+	width:98%;
+	left:1%;
+	height: 3px;
+	background:#92cbf1;
+	overflow:hidden;
+	border-radius:50px;
+	opacity:0;
+	transition: opacity 0.3s;
+}
+.loadBookProgress.active{
+opacity:1;
+}
+.progressLine{
+position:absolute;
+height:100%;
+width: 20%;
+background:#60b7f1;
+left: 0;
+border-radius:50px;
+animation: 1s linear 1s infinite alternate progress;
+}
+.info_book_description{
+	margin-left:20px;
+}
+.info_book_description .title_description{
+	font-size: 22px;
+	font-weight:600;
+	font-family: 'Roboto', sans-serif;
+}
+.head_description .back{
+    font-size: 25px;
+    color: #60b7f1;
+    margin: 10px 0 5px 0;
+}
+.description_book_text{
+    width: 100%;
+    font-family: Arial,sans-serif;
+    color: #b9b9b9;
+    margin: 19px 0 60px 0;
+}
+@keyframes progress{
+from{
+left:0;
+}
+to{
+left:80%;
+}
+}
+    </style>
+	<style>
+		@import url('https://fonts.googleapis.com/css2?family=Yanone+Kaffeesatz&display=swap');
+		*{
+			padding: 0;
+			margin: 0;
+			box-sizing: border-box;
+		}
+		.book_search{
+			position: fixed;
+			top:0;
+			left:0;
+			width: 100%;
+			height: 100%;
+			background: #f2f8fb;
+				visibility: hidden;
+			opacity:0;
+			transition: all 0.5s;
+			overflow-y: auto;
+		}
+		.book_search.active{
+			visibility: visible;
+			opacity:1;
+		}
+		.book_header{
+			height: 133px;
+			width: 100%;
+			background: #34a4fe;
+			padding:15px 15px 0 15px;
+		}
+		.search{
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			height: 30px;
+		}
+
+		.search_title{
+			display: flex;
+			color: white;
+			font-family: sans-serif;
+			font-size: 18px;
+		}
+
+		.back_from_search, .search_icon{
+		font-size:20px;
+		color: white;
+		}
+		.book_list_item .book_image img{
+			height: 100%;
+		}
+		.search_title div{
+			margin: 0 3px;
+		}
+		.book_list{
+			display: flex;
+			flex-direction: column;
+			align-items: end;
+			background: #f2f8fb;
+		}
+		.book_list_item{
+			height: 100px;
+			width: 95%;
+			display: flex;
+			justify-content: right;
+			align-items: center;
+			background: white;
+			border-left: 5px solid #34a4fe;
+			border-radius: 5px 0 0 5px;
+			margin-bottom: 20px;
+			transform: translateY(-50%);
+		}
+		.book_list_item:first-child{
+			border-left: 5px solid #4eea6c;
+		}
+
+		.book_list_item .book_image{
+			height: 80%;
+			margin: 0 20px;
+		}
+		.book_list_item .book_image img{
+			border-radius: 5px;
+		}
+
+		.book_author,.book_title{
+			color: #8d9099;
+			font-family: sans-serif;
+			text-align: right;
+			line-height: 1.8;
+		}
+		.book_title{
+			font-size: 18px;
+		}
+		.book_author{
+			font-size: 12px;
+		}
+.search_input{
+  outline: none;
+  position:absolute;
+  top:-100%;
+  left: 50%;
+  transform: translateX(-50%);
+  transition:1s;
+  width:67%;
+  background:none;
+  border:none;
+  border-bottom:2px solid white;
+  font-size: 20px;
+  color: white;
+}
+.search_input.active{
+top:11px;
+}
+
+.search_title span{
+	transform:translateX(0);
+  transition:all 1s;
+}
+
+.search_title .book.active{
+	transform:translateX(-100vw);
+}
+.search_title .list.active{
+  transform:translateX(100vw);
+}
+.read{
+	position:fixed;
+	width:100%;
+	height:100%;
+	top:0;
+	left:0;
+	opacity:0;
+	visibility:hidden;
+	background:white;
+}
+.read.active{
+opacity:1;
+visibility:visible;
+}
+.read iframe{
+	width:100%;
+	height:100%;
+	border:none;
+}
+.book_list_item.hide, li.hide{
+display: none;
+}
+	</style>
+
+
+
+	<style>
+		*{
+			padding: 0;
+			margin: 0;
+			box-sizing: border-box;
+		}
+		:root{
+			--animate-duration:1s;
+			--animate-delay:1s;
+			--animate-repeat:1;
+		}
+		.animate__animated{
+			-webkit-animation-duration:0.5s;
+			animation-duration:0.5s;
+			-webkit-animation-fill-mode:both;
+			animation-fill-mode:both;
+			visibility: hidden;
+		}
+		.genre_filter{
+			position: fixed;
+			top:0;
+			left:0;
+			width:100%;
+			height: 100%;
+			background: white;
+			opacity: 0;
+			visibility: hidden;
+			transition: 0.5s;
+		}
+		.genre_filter.active{
+			opacity: 1;
+			visibility: visible;
+		}
+		.category_head{
+			position: relative;
+			width: 90%;
+			left:5%;
+			top:5vw;
+		}
+		.category_head .close-genre{
+			position: absolute;
+			color: white;
+			top: 10px;
+			left: 10px;
+		}
+		.category_head .category_poster{
+			width: 100%;
+			height: 150px;
+		}
+		ul{
+			margin-top: 50px;
+		}
+		.category_head .category_poster img{
+			width: 100%;
+			height: 100%;
+			border-radius: 10px;
+			object-fit: cover;
+			box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+		}
+		.category_head .category_name{
+			color: white;
+			position: absolute;
+			text-align: left;
+			bottom:20px;
+			left:20px;
+			font-size: 30px;
+			font-family: sans-serif;
+		}
+		ul, li{
+			list-style: none;
+		}
+		ul li{
+			display: flex;
+			margin:20px 10px;
+		}
+		.book_poster{
+            width: 60px;
+            height:85px;
+      		border-radius:6px;
+     		box-shadow: rgba(0, 0, 0, 0.45) 0px 25px 20px -20px;
+		}
+		.book_poster img{
+			width: 100%;
+			height: 100%;
+			border-radius: 5px;
+		}
+		.book_info{
+		margin-left:5px;
+			display: flex;
+			flex-direction: column;
+			justify-content: space-between;
+		}
+		.book_info .title{
+			font-family: sans-serif;
+			font-size: 17px;
+		}
+		.book_info .author{
+			font-family: sans-serif;
+			font-size: 16px;
+			color:#cbd0d4;
+		}
+		.difficulty{
+			display: flex;
+			align-items: center;
+		}
+		.difficulty div{
+			width: 5px;
+			height: 13px;
+			border-radius: 30px;
+			margin: 0 1px;
+		}
+		.difficulty.ease div{
+			background: #7aff04;
+		}
+		.difficulty.middle div{
+			background: #06b2fa;
+		}
+		.difficulty.original div{
+			background: #e84f35;
+		}
+		.difficulty p{
+			font-family: sans-serif;
+			font-size: 12px;
+			padding: 0 2px;
+		}
+		.book_info .title, .book_info .author, .book_info .difficulty{
+			padding: 2px;
+		}
+	</style>
+</head>
+<body>
+<header>
+	<div class="library" data-localization="library">
+		Бібліотека
+	</div>
+	<div class="search_trigger">
+		<i class='bx bx-search-alt-2'></i>
+	</div>
+
+</header>
+<div class="scrolling-wrapper"></div>
+
+<section class="continue-read-wrap">
+	<div class="section-title" data-localization="continuereading"></div>
+<div class="continue-read">
+	<div class="continue-read-image">
+		<img src="" alt="">
+	</div>
+	<div class="continue-read-description">
+		<div class="continue-read-title"></div>
+		<div class="continue-read-author"></div>
+		<div class="continue-read-short"></div>
+		<div class="read_progress">
+			<div></div>
+		</div>
+	</div>
+
+</div>
+</section>
+
+<div class="section-title" data-localization="genres"></div>
+<div class="scrolling-wrapper genres_data">
+</div>
+
+
+
+<div class="book_search">
+	<div class="book_header">
+		<div class="search">
+			<div class="back_from_search">
+				<i class='bx bx-arrow-back' ></i>
+			</div>
+			<div class="search_title">
+				<input class="search_input" type="text" />
+				<span class="book">Book</span>
+				<span class="list">List</span>
+			</div>
+			<div class="search_icon">
+				<i class='bx bx-search-alt-2' ></i>
+			</div>
+		</div>
+	</div>
+	<div class="book_list">
+
+
+	</div>
+</div>
+
+<div class="genre_filter animate__animated">
+	<div class="category_head">
+		<i class="material-icons close-genre">close</i>
+		<div class="category_poster"><img src="image/genre/horror.jpg" alt=""></div>
+		<div class="category_name">Хорор</div>
+	</div>
+
+	<ul>
+	</ul>
+
+</div>
+
+<div class="blur_background"></div>
+<div class="book_description">
+	<div class="head_description">
+		<div class="back"><i class='bx bx-arrow-back' ></i></div>
+		<div class="share"><img src="" alt=""></div>
+	</div>
+	<div class="preview">
+		<div class="book_image_description">
+			<img src="" alt="">
+		</div>
+		<div class="info_book_description">
+			<div class="author_description"></div>
+			<div class="title_description"></div>
+		</div>
+	</div>
+	<div class="btn_group">
+		<div class="description_book_listen"><img src="image/headphones.png" alt=""><span data-localization="listen">Слухати</span></div>
+		<div class="description_book_read"><img src="image/book.png" alt="" ><span data-localization="read">Читати</span></div>
+	</div>
+	<div class="loadBookProgress">
+		<div class="progressLine"></div>
+	</div>
+	<div class="description_book_text">
+
+	</div>
+</div>
+
+
+
+<section class="read">
+		<iframe src="read.html"></iframe>
+</section>
+<script src="js/localization.js"></script>
+<script src="js/library.js"></script>
+<script>
+document.querySelector(".search_icon").onclick = function() {
+        document.querySelector(".book").classList.toggle("active");
+        document.querySelector(".list").classList.toggle("active");
+        document.querySelector(".search_input").classList.toggle("active");
+    }
+document.querySelector(".back").addEventListener('click',()=>{
+	parent.postMessage("min", "*");
+	blur_bg.classList.remove("active");
+	document.querySelector(".book_description").classList.remove("active");
+});
+document.querySelector(".back_from_search").addEventListener('click',()=>{
+	parent.postMessage("min", "*");
+	document.body.classList.remove("block");
+	document.querySelector(".book_search").classList.remove("active");
+});
+document.querySelector(".search_trigger").addEventListener('click',()=>{
+parent.postMessage("full", "*");
+document.body.classList.add("block");
+document.querySelector(".book_search").classList.add("active");
+});
+
+
+//-----------------------------------------------------------------------------------
+
+var title_book = [];
+
+let result = Android.getBooks(`http://english.ho.ua/get_book.php?lang=${country_code}`);
+
+let json = JSON.parse(result);
+console.log(result)
+json.forEach((item, i, arr)=>{
+	let jsonobj = {};
+    jsonobj[item.id] = item.title
+    title_book.push(jsonobj);
+    //------------------------------------------------
+    let card = document.createElement('div');
+    card.classList = "card";
+    card.dataset.id = item.id;
+    if(!item.poster.includes("files")){
+    	item.poster = `http://english.ho.ua/admin/${item.poster}`;
+    }
+    console.log(item.poster);
+    card.addEventListener('click', ()=>getInfo(item))
+    //------------------------------------------------
+    let book_list_item = document.createElement('div');
+    book_list_item.classList = "book_list_item";
+    book_list_item.dataset.id = item.id;
+    book_list_item.addEventListener('click', ()=>getInfo(item))
+
+	let genre_book_item = document.createElement('li');
+	genre_book_item.dataset.id = item.genre_id;
+	genre_book_item.innerHTML = `<div class="book_poster"><img src="${item.poster}" alt=""></div><div class="book_info"><div class="author">${item.author}</div><div class="title">${item.title}</div><div class="difficulty ease"><div></div><div></div><div></div><p>Оригінал</p></div></div>`
+    genre_book_item.addEventListener('click', ()=>getInfo(item))
+
+    card.innerHTML = `<div class="img"><div class="icon"><div class="cover_book"><img src="image/book.png"  alt=""> </div><div class="cover_headphones"><img src="image/headphones.png" alt=""></div></div><img src="${item.poster}" alt="" class="cover data_image_src" ></div><div class="author">${item.author}</div><div class="title">${item.title}</div>`;
+    book_list_item.innerHTML = `<div class="book_search_description"><div class="book_title">${item.title}</div><div class="book_author">${item.author}</div></div><div class="book_image"><img src="${item.poster}" alt="" class="data_image_src"></div>`;
+    document.querySelector(".scrolling-wrapper").appendChild(card);
+    document.querySelector(".book_search .book_list").appendChild(book_list_item);
+    genre_filter_wrap.appendChild(genre_book_item);
+
+});
+
+genresItems = genre_filter_wrap.querySelectorAll('li');
+
+
+
+listener = (event) => {
+let json = JSON.parse(event.data);
+console.log(json)
+if(json.type == "loaded"){
+startRead(json.data);
+}else if(json.type == "highlight"){
+	document.querySelector(".read iframe").contentWindow.postMessage(event.data, "*")
+}if (json.type == "closeread") {
+			loadLastReadingBook();
+            document.querySelector(".read").classList.remove("active");
+            parent.postMessage("min", "*");
+        }
+}
+
+if (window.addEventListener) {
+  window.addEventListener("message", listener);
+} else {
+  window.attachEvent("onmessage", listener);
+}
+const searchInput = document.querySelector('.search_input');
+const bookListItems = document.querySelectorAll('.book_list_item');
+
+const debounce = (func, delay) => {
+  let timeoutId;
+  return (...args) => {
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+    }
+    timeoutId = setTimeout(() => {
+      func.apply(null, args);
+    }, delay);
+  };
+};
+
+const handleInput = () => {
+  const value = searchInput.value.trim().toLowerCase();
+
+  bookListItems.forEach(element => {
+    if (element.textContent.toLowerCase().includes(value)) {
+      element.classList.remove('hide');
+    } else {
+      element.classList.add('hide');
+    }
+  });
+};
+
+const debouncedHandleInput = debounce(handleInput, 200);
+
+searchInput.addEventListener('input', debouncedHandleInput);
+
+
+</script>
+
+<script>
+	document.querySelector('.close-genre').addEventListener('click', ()=>{
+		document.querySelector('.genre_filter').classList.remove('active');
+	})
+</script>
+
+</body>
+</html>

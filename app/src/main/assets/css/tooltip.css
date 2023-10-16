@@ -1,0 +1,184 @@
+main .tooltip {
+  position: relative;
+  display: inline-block;
+  text-shadow: 0 0px 2px #ff0044;
+  color: #bd335f;
+}
+
+.tooltip .tooltiptext {
+  width: 60vw;
+  text-shadow: none;
+  visibility: hidden;
+  text-align: center;
+  padding: 5px;
+  border-radius: 8px;
+  position: absolute;
+  z-index: 1;
+  font-family: sans-serif;
+  background: var(--tooltip-background);
+  text-transform: capitalize;
+  color: white;
+  bottom: 120%;
+}
+.tooltip .tooltiptext .voice{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+.tooltip .tooltiptext .original{
+    color: var(--tooltip-color);
+    font-size: 1.2em;
+
+}
+
+.wrap_btn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+}
+
+.wrap_btn button{
+	border: none;
+	background: none;
+	color: #fff;
+	font-family: sans-serif;
+	text-align: center;
+	font-size: 1em;
+	display: block;
+	width: 50%;
+}
+
+.wrap_btn button:first-child{
+}
+
+/*main:not(.dark) .tooltip .tooltiptext{
+    background: var(--tooltip-background);
+}*/
+
+.tooltip .tooltiptext.active {
+  visibility: visible;
+}
+
+.tooltip .tooltiptext.top {
+    left: 50%;
+    transform: translateX(-50%);
+}
+.tooltip .tooltiptext.right {
+  right: -10px;
+}
+.tooltip .tooltiptext.left {
+  left: -10px;
+}
+
+.tooltip .tooltiptext .arrow {
+  content: " ";
+  position: absolute;
+  top: 100%;
+  margin-left: -7px;
+  border-width: 7px;
+  border-style: solid;
+  border-color: var(--tooltip-background) transparent transparent transparent;
+}
+.tooltip .tooltiptext.top .arrow{
+    left: 50%;
+}
+
+/*Panel*/
+.translate_panel{
+position:fixed;
+bottom:-100%;
+left:0;
+width:100%;
+height:20vh;
+box-shadow:0 0 10px black;
+transition:2s all;
+text-align:center;
+}
+.translate_panel .original, .translate_panel .translate{
+    width: 100%;
+    height: 10vh;
+    display: block;
+    font-family: sans-serif;
+    display: grid;
+    place-items: center;
+
+}
+.translate_panel .original{
+background: #2cb1f8;
+color:white;
+}
+.translate_panel .translate{
+background: white;
+color:#2cb1f8;
+}
+.translate_panel.active{
+bottom:0;
+}
+.getTranslate{
+position:fixed;
+top:0;
+bottom:0;
+right:20px;
+margin:auto;
+width:60px;
+height:60px;
+border-radius:50%;
+background:#2cb1f8;
+visibility:hidden;
+opacity:0;
+transition:opacity 0.2s;
+}
+    .getTranslate.active {
+        visibility: visible;
+        opacity: 1;
+    }
+
+    .translateload {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        /*background: #222026;*/
+    }
+    /* #161519*/
+    .translateload .transcription{
+        font-size: 12px;
+    }
+    .translateload{
+        padding: 10px 0;
+    }
+    .translateload div {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: white;
+    }
+
+    .translateload div:nth-child(1) {
+        animation: load 0.5s ease-in-out 0.25s infinite alternate;
+    }
+    .translateload span{
+        padding: 0 2px;
+        line-height: 1.4;
+    }
+
+    .translateload div:nth-child(2) {
+        margin: auto 2px;
+        animation: load 0.5s ease-in-out 0.5s infinite alternate;
+    }
+
+    .translateload div:nth-child(3) {
+        animation: load 0.5s ease-in-out 0.75s infinite alternate;
+    }
+    .textwords{
+        display: inline;
+    }
+
+    @keyframes load {
+        0% {
+            transform: translateY(0);
+        }
+
+        100% {
+            transform: translateY(-50%);
+        }

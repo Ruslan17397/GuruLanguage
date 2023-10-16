@@ -1,0 +1,124 @@
+	.book_list_header{
+
+			width:100%;
+			height: 25%;
+			background-color: #60b7f1; 
+			text-align: center;
+
+		}
+		ul,li{
+			list-style: none;
+		}
+
+		.book_list{
+			height: 100%;
+			width: 100%;
+			background-color: #e5f2fb;
+			position: relative;
+			overflow-y: auto;
+					position: absolute;
+		top: 0;
+		left: 0;
+		z-index: 100;
+		visibility: hidden;
+		opacity: 0;
+		transition: 1s;
+
+		}
+		.book_list.active{
+			opacity: 1;
+			visibility: visible; 
+		}
+	.book_list_item{
+		width: 83%;
+		box-shadow: 0 0 10px #60b7f1;
+		float: right;
+		margin-bottom:20px;
+		background-color: white;
+		border-radius:5px 0 0 5px;
+		border-left: 6px solid #60b7f1;
+		transform: translateY(-50%);
+		padding: 5px 10px;
+	}
+
+	.book_image{
+		height: 100%;
+		display: flex;
+		align-items: center;
+    justify-content:center;
+		float: right;
+		margin-right: 10px;
+    width:10%;
+	}
+	.book_image img{
+		height: 13vh; 
+		border-radius: 5px;
+	}
+.book_list_info{
+	float: left;
+  width:80%;
+  display:inline-block;
+  margin-top:10px;
+}
+.title{
+font-size:4.5vw;
+word-break: break-all;
+color:#60b7f1;
+}
+.author{
+  color:#808080;
+  font-size:18px;
+  margin-top:10px;
+  display:flex;
+  align-items:center;
+}
+.author img{
+height:20px;
+}
+.search_animation_wrap{
+  overflow:hidden;
+}
+.search_animation_wrap span{
+  display:inline-block;
+  margin-top:20px;
+  color: white;
+	font-size: 30px;
+  transform:translate(0);
+  transition:1s;
+}
+.book_search_icon{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+    height:20px;
+  position:absolute;
+  top:25px;
+  right:20px;
+  
+}
+.search_anim_book.active{
+  transform:translateX(-100vw);
+}
+.search_anim_list.active{
+  transform:translateX(100vw);
+}
+.book_search_icon img{
+height:100%;
+}
+.book_search_input{
+	outline: none;
+  position:absolute;
+  top:-100%;
+  transition:1s;
+  width:80%;
+  left:calc(10% - 18px);
+  background:none;
+  border:none;
+  border-bottom:2px solid white;
+}
+.book_search_input.active{
+top:28px;
+}
+	.book_list_item.first{
+    border-left:6px solid #69d04c;
+	}

@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <title>Document</title>
+    <style>
+		@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@500&display=swap');
+		@import url('https://fonts.googleapis.com/css2?family=Allerta&display=swap');
+		*{
+			padding: 0;
+			margin: 0;
+			box-sizing: border-box;
+		}
+		::-webkit-scrollbar {
+			width: 0px;
+			background: transparent;
+		}
+		body,html{
+			height: 100vh;
+			background: #f5f5f6;
+			overflow: hidden;
+		}
+		.textSettings{
+			position: fixed;
+			top: 100px;
+			left: 50%;
+			transform: translateX(-50%);
+			width: 80%;
+			border-radius: 10px;
+			padding:10px;
+			box-sizing: border-box;
+			visibility: hidden;
+			opacity: 0;
+			transition: .3s;
+			z-index: 10;
+		}
+		.textSettings.active{
+			visibility: visible;
+			opacity: 1;
+		}
+		.top-bar .back, .top-bar .read_settings, .textSettings{
+		    color:#282828;
+		    box-shadow:0 0 5px rgba(100, 100, 111, 0.3);
+			background: rgba( 255, 255, 255, 0.4 );
+            backdrop-filter: blur( 10px );
+            -webkit-backdrop-filter: blur( 10px );
+
+        }
+		.setting_title{
+			font-family: sans-serif;
+			font-size: 12px;
+			padding: 3px;
+			margin-top: 10px;
+
+		}
+		.center{
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+		.small, .large{
+			width:10%;
+			text-align: center;
+			color:#282828;
+		}
+		.small{
+			font-size: 20px;
+		}
+		.slider-container{
+			position: relative;
+			width: 80%;
+		}
+		.slider-container .fill{
+			position: absolute;
+			display: block;
+			width: 25%;
+			height: 10px;
+			background: #282828;
+			border-radius: 5px;
+			z-index: 2;
+		}
+		.slider{
+			position: absolute;
+			z-index: 1;
+			width:100%;
+			height:10px;
+			border-radius: 5px;
+			outline: none;
+		}
+		.slider::-webkit-slider-runnable-track {
+			background: #eee;
+			height: 10px;
+			border-radius: 5px;
+		}
+		/******** Firefox ********/
+		.slider::-moz-range-track {
+			background: #eee;
+			height: 10px;
+			border-radius: 5px;
+		}
+		.slider{
+			-webkit-appearance: none;
+			outline: none;
+		}
+		.slider::-webkit-slider-thumb {
+			-webkit-appearance: none;
+			width: 20px;
+			height: 20px;
+			background-color: #282828;
+			border-radius: 50%;
+			cursor: pointer;
+			outline: none;
+			box-shadow:  0 0 0 0 rgba(40, 40, 40, .1);
+			transition: .3s ease-in-out;
+			margin-top: -5px;
+		}
+		.slider::-webkit-slider-thumb:hover {
+			box-shadow:  0 0 0 10px rgba(40, 40, 40, .1);
+		}
+		.tabs{
+			width: 100%;
+			height:100%;
+			font-family: sans-serif;
+			font-size: 16px;
+			line-height: 1.5em;
+			transition: font-size .2s;
+			overflow: scroll;
+			text-align: left;
+			padding: 0 30px;
+			padding-top: 70px;
+		}
+		.tab div.indent{
+			margin: 20px 0;
+		}
+		.tab div.indent:before
+		{
+			content: '';
+			display:inline-block;
+			width: 10px;
+			height: 20px;
+			float:left;
+		}
+		.top-bar{
+			position: fixed;
+			width: 100%;
+			height: 70px;
+			top:0;
+			left:0;
+			z-index: 10;
+			display: flex;
+			align-items: flex-end;
+			justify-content: space-between;
+			padding: 10px;
+		}
+		.top-bar i{
+		    font-size: 25px;
+		    margin: 2px;
+		}
+		.top-bar .back, .top-bar .read_settings{
+		    padding: 5px 10px;
+            border-radius: 60px;
+            display: flex;
+            align-items: center;
+            box-sizing: border-box;
+		}
+				main .tabs .title, main .tabs .author{
+				margin: 5px 0;
+				text-align: center;
+				}
+		.align-select, .speed-select{
+		     display: flex;
+		     justify-content: space-between;
+		}
+		.align-select i, .speed-select i{
+		    padding: 2px;
+		    border-radius: 6px;
+		}
+		.align-select i.select, .speed-select i.select{
+            background: #282828;
+            color: #f5f7fa;
+		}
+
+
+		</style>
+    <link href="css/tooltip.css" rel="stylesheet">
+    <link href="css/notification.css" rel="stylesheet">
+    <link href="css/icons.css" rel="stylesheet">
+    <link href="css/boxicons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/dark.css">
+</head>
+<body>
+<div class="toast success">
+    <div class="container-1">
+        <i class='bx bxs-check-circle' ></i>
+    </div>
+    <div class="container-2">
+        <p>Успіх</p>
+        <p class="toast-text">Ви успішно додали слово.</p>
+    </div>
+    <button>&times;</button>
+</div>
+<div class="toast error">
+    <div class="container-1">
+        <i class='bx bxs-error-alt'></i>
+    </div>
+    <div class="container-2">
+        <p>Помилка</p>
+        <p class="toast-text">Ви вже додавали це слово.</p>
+    </div>
+    <button>&times;</button>
+</div>
+<div class="top-bar">
+    <div class="back">
+        <i class="material-icons">keyboard_arrow_left</i>
+    </div>
+    <div class="read_settings">
+        <i class="material-icons format_size">format_size</i>
+        <i class="material-icons read">headset</i>
+        <i class="material-icons more_settings">more_vert</i>
+    </div>
+</div>
+<main>
+    <div class="tabs">
+    </div>
+</main>
+
+<div class="darkmode">
+    <div class="darkmode_icons">
+        <i class="material-icons sun">brightness_5</i> <i class="material-icons moon">brightness_3</i>
+    </div>
+</div>
+<section class="textSettings">
+    <div class="setting_title">SIZE</div>
+    <div class="sizeRange center">
+        <i class="material-icons small">format_size</i>
+        <div class="slider-container">
+            <span class="fill"></span>
+            <input type="range" min="14" max="22" value="16" step=".001" class="slider">
+        </div>
+        <i class="material-icons large">format_size</i>
+    </div>
+    <div class="setting_title">ALIGN</div>
+    <div class="align-select">
+        <i class="material-icons format_align_left select">format_align_left</i>
+        <i class="material-icons format_align_center">format_align_center</i>
+        <i class="material-icons format_align_justify">format_align_justify</i>
+        <i class="material-icons format_align_right">format_align_right</i>
+    </div>
+    <div class="setting_title">SPEED</div>
+    <div class="speed-select">
+        <i>0.25</i>
+        <i>0.50</i>
+        <i>0.75</i>
+        <i class="select">1.00</i>
+    </div>
+</section>
+<div class="clip"></div>
+<script>
+        let activeTooltip;
+		document.querySelector(".back").onclick = function() {
+		    parent.postMessage(JSON.stringify({ "type": "closeread" }), "*");
+		}
+		let updateTooltip = (text_tooltip) => {
+			(text_tooltip.classList.contains("left")) ? text_tooltip.classList.remove("left"): (text_tooltip.classList.contains("right")) ? text_tooltip.classList.remove("right") : (text_tooltip.classList.contains("top")) ? text_tooltip.classList.remove("top") : console.log("ok");
+		    text_tooltip.querySelector('.arrow').style = "";
+		    text_tooltip.classList.add("top");
+		    let clientRect = text_tooltip.getBoundingClientRect();
+			let clientRectEl = text_tooltip.parentElement.getBoundingClientRect();
+				if(clientRect.left < 30){
+				    text_tooltip.classList.remove('top');
+				    text_tooltip.classList.add('left');
+				    text_tooltip.querySelector('.arrow').style.left = `${clientRectEl.width/2}px`;
+				}else if(clientRect.right > window.innerWidth - 30){
+				    text_tooltip.classList.remove('top');
+				    text_tooltip.classList.add('right');
+				    text_tooltip.querySelector('.arrow').style.right = `${clientRectEl.width/2}px`;
+				}
+		}
+		</script>
+<script src="js/notification.js"></script>
+<script src="js/read.js"></script>
+<script src="js/dark.js"></script>
+</body>
+<script>
+		let book_id;
+		hideActiveTooltip = ()=>{
+		    if(activeTooltip){
+		        activeTooltip.classList.remove("active");
+		        activeTooltip = undefined;
+            }
+		}
+
+        window.addEventListener('click', e => {
+        if(activeTooltip){
+                if (!parents(e.target, activeTooltip.parentElement.dataset.id)) {
+                    hideActiveTooltip();
+                }
+                }
+        });
+
+		showTooltip = (e,el) => {
+		let text = el.querySelector(".tooltiptext");
+		if(!text.classList.contains("active")){
+		    hideActiveTooltip();
+            updateTooltip(text);
+            text.classList.add('active');
+            activeTooltip = text;
+		}else{
+            let original = el.childNodes[0].nodeValue;
+            let translate = el.querySelector('.translateload .translate_word').innerText;
+            let transcription = el.querySelector('.translateload .transcription').innerText;
+            console.log(transcription)
+            if(e.target.classList.contains("putWord")){
+                if(Android.putWord(original, transcription, translate)){
+                    notify('Ви успішно додали слово.', true)
+                }else{
+                    notify('Ви вже додавали це слово.', false)
+                };
+            }
+            if(e.target.classList.contains("putRepeatWord")){
+                if(Android.putRepeatWord(original, transcription, translate)){
+                    notify('Ви успішно додали слово.', true)
+                }else{
+                    notify('Ви вже додавали це слово.', false)
+                };
+            }
+		}
+		}
+		let getTranslate = (el, isword)=>{
+						if(isword == 'yes'){
+						el.setAttribute('onclick','showTooltip(event, this)');
+						el.classList.add('tooltip');
+						let tooltiptext = document.createElement('div');
+						tooltiptext.classList = 'tooltiptext top';
+						let res = JSON.parse(Android.getWord(el.innerText));
+						tooltiptext.innerHTML = `<div class="arrow"></div><div class="translateload"><span class="original">${el.innerText}</span><span class="transcription">${res[1]}</span><span class="translate_word">${res[0]}</span></div><div class="wrap_btn"><button class="putWord">Вчити</button> <button class="putRepeatWord">Знаю</button></div> <div class="voice" onclick='Android.toVoice("${el.innerText}");'><i class="material-icons">volume_up</i></div>`;
+						el.appendChild(tooltiptext);
+
+						updateTooltip(tooltiptext);
+						hideActiveTooltip();
+						activeTooltip = tooltiptext;
+						tooltiptext.classList.add("active");
+					}
+		}
+		parents = (el, id) => {
+            while (true) {
+                if ((el.classList.contains("tooltip") && el.dataset.id == id) || (el.classList.contains("textwords") && el.dataset.id == id)) {
+                    return true;
+                }
+                el = el.parentElement;
+                if (el == null || el == document.body) {
+                    return false;
+                }
+            }
+		}
+		document.querySelector('.read').addEventListener('click', ()=>{
+		    if(book_id) Android.startReader(book_id, 0);
+		})
+
+
+
+
+
+
+
+
+
+
+
+		document.querySelector('.format_size').addEventListener('click', ()=>{
+		    document.querySelector('.textSettings').classList.add("active");
+		});
+
+		document.querySelector('.textSettings .align-select').addEventListener('click', ()=>{
+		if (event.target.tagName === 'I') {
+		    document.querySelector('.tabs').style.textAlign = event.target.textContent.replace("format_align_", "");
+		    document.querySelector(".align-select i.select").classList.remove("select");
+		    event.target.classList.add("select");
+		}
+		});
+		document.querySelector('.textSettings .speed-select').addEventListener('click', ()=>{
+		if (event.target.tagName === 'I') {
+		    Android.setSpeed(event.target.textContent);
+		    document.querySelector(".speed-select i.select").classList.remove("select");
+		    event.target.classList.add("select");
+		}
+		});
+		</script>
+</html>

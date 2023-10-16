@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Page title</title>
+
+    <link href='css/boxicons.min.css' rel='stylesheet'>
+    <link href="css/preloader.css" rel="stylesheet">
+    <link href="css/internet_style.css" rel="stylesheet">
+
+<!--    <script src="js/offlinemin.js"></script>-->
+    <link href="css/tabs.css" rel="stylesheet">
+    <style>
+        #toast-container {
+  display: block;
+  position: fixed;
+  z-index: 10000;
+}
+
+@media only screen and (max-width: 600px) {
+  #toast-container {
+    min-width: 100%;
+    bottom: 0%;
+  }
+}
+
+@media only screen and (min-width: 601px) and (max-width: 992px) {
+  #toast-container {
+    left: 5%;
+    bottom: 7%;
+    max-width: 90%;
+  }
+}
+
+@media only screen and (min-width: 993px) {
+  #toast-container {
+    top: 10%;
+    right: 7%;
+    max-width: 86%;
+  }
+}
+
+.toast {
+  border-radius: 2px;
+  top: 35px;
+  width: auto;
+  margin-top: 10px;
+  position: relative;
+  max-width: 100%;
+  height: auto;
+  min-height: 48px;
+  line-height: 1.5em;
+  background-color: #52bdf2;
+  padding: 10px 25px;
+  font-size: 1.1rem;
+  font-weight: 300;
+  color: #fff;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  cursor: default;
+}
+.toast .toast-action {
+  color: #eeff41;
+  font-weight: 500;
+  margin-right: -25px;
+  margin-left: 3rem;
+}
+
+.toast.rounded {
+  border-radius: 24px;
+}
+@media only screen and (max-width: 600px) {
+  .toast {
+    width: 100%;
+    border-radius: 0;
+  }
+}
+</style>
+</head>
+
+<body>
+
+
+
+<div class="splash">
+    <div class="splash_logo">
+        <img src="image/sh.png" alt="">
+    </div>
+    <div class="txtlogo">GuruLanguage</div>
+</div>
+ <div class="wrap_int">
+        <div class="modal">
+            <div class="modal_content">
+                Нет интернет соединения
+            </div>
+            <!--<div class="modal_footer">
+                        <div class="button_ok">
+                                ОК
+                        </div>-->
+        </div>
+    </div>
+    </div>
+<!--    <script src="js/internet.js"></script>-->
+
+    <section class="wrap">
+        <div class="tab_content">
+            <div class="tab_content_item">
+                <iframe src="profile.html"></iframe>
+            </div>
+            <div class="tab_content_item active">
+                <iframe src="library.html" class="library"></iframe>
+            </div>
+            <div class="tab_content_item">
+                <iframe src="game.html" class="game"></iframe>
+            </div>
+            <div class="tab_content_item">
+                <iframe src="word.html" class="words"></iframe>
+            </div>
+            <div class="tab_content_item">
+                <iframe src="new_study.html" class="study"></iframe>
+            </div>
+        </div>
+        <nav class="tabbar">
+            <ul>
+                <li><a href="#">
+                        <i class="bx bx-user"></i><span class="profile" data-localization="profile"></span>
+                    </a></li>
+                <li><a href="#">
+                        <i class="bx bx-library"></i><span class="library" data-localization="library"></span>
+                    </a></li>
+                <li><a href="#">
+                        <i class="bx bx-joystick"></i><span class="game" data-localization="game"></span>
+                    </a></li>
+                <li><a href="#">
+                        <i class="bx bx-comment-dots"></i><span class="word" data-localization="word"></span>
+                    </a></li>
+                <li><a href="#">
+                    <i class='bx bx-brain'></i><span class="brain" data-localization="brain"></span>
+                    </a></li>
+            </ul>
+        </nav>
+    </section>
+
+    <script type="text/javascript" src="js/localization.js" defer></script>
+    <script>
+window.addEventListener('load', () => {
+  const splashLogo = document.querySelector(".splash .splash_logo");
+  const splashElement = document.querySelector(".splash");
+
+  splashLogo.style.transform = "scale(1.5)";
+
+  setTimeout(() => {
+    splashElement.classList.add("hide_trans");
+  }, 200);
+});
+
+const tabItemsWrap = document.querySelector(".tabbar ul");
+const tabItems = document.querySelectorAll(".tabbar ul li");
+const tabContentItems = document.querySelectorAll(".tab_content_item");
+
+setActive(tabItemsWrap, tabItems[1]);
+
+tabItems.forEach((item, index) => {
+  item.addEventListener('click', () => {
+    tabContentItems.forEach((contentItem, i) => {
+      if (index === i) {
+        if (index === 3 || index === 0) {
+          contentItem.querySelector("iframe").contentWindow.postMessage("reload");
+        }
+        contentItem.classList.add("active");
+      } else {
+        contentItem.classList.remove("active");
+      }
+    });
+    setActive(tabItemsWrap, item);
+  });
+});
+
+function setActive(nav, li) {
+  tabItems.forEach((item) => {
+    item.classList.remove('active');
+  });
+  li.classList.add('active');
+  nav.style.setProperty('--x', (li.offsetLeft + li.offsetWidth / 2) + 'px');
+}
+
+    </script>
+    <script type="text/javascript">
+    const tabbar = document.querySelector('.tabbar');
+
+    var eventMethod = window.addEventListener ?
+        "addEventListener" :
+        "attachEvent";
+    var eventer = window[eventMethod];
+    var messageEvent = eventMethod === "attachEvent" ?
+        "onmessage" :
+        "message";
+
+    eventer(messageEvent, function(e) {
+        if (e.data === "full" || e.message === "full") {
+           tabbar.classList.add("active");
+        }else if (e.data === "min" || e.message === "min") {
+            tabbar.classList.remove("active");
+        }
+    });
+    </script>
+</body>
+
+</html>

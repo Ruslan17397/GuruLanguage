@@ -1,0 +1,41 @@
+header img.bg{
+												width:100%;
+												max-width:100%;
+								}
+								.text{
+												color:grey;
+												font-size:16px;
+												text-align:justify;
+												padding:0 2% 0 2%;
+								}
+								.ic{
+												position: absolute;
+												width:30px;
+												top:6px;
+												right:10px;
+												filter:invert(100%);
+								}
+.read{
+position:fixed;
+top:0;
+width:100vw;
+height:100vh;
+background:white;
+visibility:hidden;
+opacity:0;
+overflow-y:auto;
+transition all 0.7s;
+z-index: 105;
+}
+.read.active{
+visibility:visible;
+opacity:1;
+}
+.read .text iframe{
+position:absolute;
+width:100vw;
+height:100vh;
+left:0;
+top:0;
+border:none;
+}

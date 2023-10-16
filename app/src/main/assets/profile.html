@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Пример веб-страницы</title>
+     <link href='css/boxicons.min.css' rel='stylesheet'>
+<style>
+*{
+padding:0;
+margin:0;
+}
+.profile .avatar img{
+border-radius:50%;
+width:40vw;
+height:40vw;
+margin-top:5%;
+}
+.profile{
+width:100vw;
+text-align:center;
+font-family: Arial, Helvetica, sans-serif;
+}
+.profile .avatar{
+width:100%;
+display:flex;
+justify-content:center;
+}
+.status{
+color:#60b7f1;
+font-weight:600;
+font-size:18px;
+width: 90%;
+margin: 15px 5%;
+}
+.fullprogress{
+position:relative;
+width:60%;
+height:40px;
+font-size:10px;
+color:white;
+border-radius:6px;
+background: #60b7f1;
+overflow: hidden;
+display: flex;
+    justify-content: center;
+    align-items: center;
+    white-space: nowrap;
+}
+.progressbar{
+display:flex;
+justify-content:center;
+z-index: 10;width: 100%;
+font-size:11px;
+}
+.nowprogress{
+position:absolute;
+top:0;
+left:0;
+height:100%;
+background: #F9C900;
+transition:0.3s all;
+}
+.words{
+display:flex;
+justify-content:center;
+margin-top:30px;
+}
+.words .repeat,.words .learn{
+position:relative;
+max-width:calc(50% - 10px);
+display:flex;
+justify-content:center;
+}
+.words .repeat img,.words .learn img{
+width:100%;
+}
+.words .repeat .black,.words .learn .black{
+background:rgba(0,0,0,0.5);
+width:100%;
+height:100%;
+position:absolute;
+top:0;
+left:0;
+}
+.words .repeat span,.words .learn span{
+position:absolute;
+color:white;
+font-family: Arial, Helvetica, sans-serif;
+top:20px;
+font-weight:600;
+}
+.settings_trig{
+	position: absolute;
+	top:20px;
+	right:20px;
+	color:#222;
+        position: absolute;
+
+}
+.settings_trig svg{
+	fill: black;
+	width:32px;
+	height: 32px;
+}
+</style>
+
+     <style>
+		*{
+			padding: 0;
+			margin: 0;
+			box-sizing: border-box;
+		}
+		.segment{
+			width: 80%;
+			margin-left: 10%;
+			border-radius: 8px;
+			display: flex;
+			padding: 10px;
+			justify-content: space-between;
+			align-items: center;
+			font-size: 20px;
+			font-family: sans-serif;
+			background: white;
+			margin-top: 40px;
+		}
+		.day{
+			font-weight: bold;
+			color: #b0b0ae;
+			margin-bottom: 5px;
+			font-size: 15px;
+		}
+		.segment-circle{
+			width: 25px;
+			height: 25px;
+			border-radius: 50%;
+			background: #e5e5e5;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+		.segment-circle i{
+			color: white;
+		}
+		.segment-circle.complete{
+			background: #f49b00;
+		}
+		.segment-circle.empty i{
+			display: none;
+		}
+
+	</style>
+ </head>
+ <body>
+ 	<div class="settings_trig">
+ 		<svg  xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 24 24" ><path d="M 9.6660156 2 L 9.1757812 4.5234375 C 8.3516137 4.8342536 7.5947862 5.2699307 6.9316406 5.8144531 L 4.5078125 4.9785156 L 2.171875 9.0214844 L 4.1132812 10.708984 C 4.0386488 11.16721 4 11.591845 4 12 C 4 12.408768 4.0398071 12.832626 4.1132812 13.291016 L 4.1132812 13.292969 L 2.171875 14.980469 L 4.5078125 19.021484 L 6.9296875 18.1875 C 7.5928951 18.732319 8.3514346 19.165567 9.1757812 19.476562 L 9.6660156 22 L 14.333984 22 L 14.824219 19.476562 C 15.648925 19.165543 16.404903 18.73057 17.068359 18.185547 L 19.492188 19.021484 L 21.826172 14.980469 L 19.886719 13.291016 C 19.961351 12.83279 20 12.408155 20 12 C 20 11.592457 19.96113 11.168374 19.886719 10.710938 L 19.886719 10.708984 L 21.828125 9.0195312 L 19.492188 4.9785156 L 17.070312 5.8125 C 16.407106 5.2676813 15.648565 4.8344327 14.824219 4.5234375 L 14.333984 2 L 9.6660156 2 z M 11.314453 4 L 12.685547 4 L 13.074219 6 L 14.117188 6.3945312 C 14.745852 6.63147 15.310672 6.9567546 15.800781 7.359375 L 16.664062 8.0664062 L 18.585938 7.40625 L 19.271484 8.5917969 L 17.736328 9.9277344 L 17.912109 11.027344 L 17.912109 11.029297 C 17.973258 11.404235 18 11.718768 18 12 C 18 12.281232 17.973259 12.595718 17.912109 12.970703 L 17.734375 14.070312 L 19.269531 15.40625 L 18.583984 16.59375 L 16.664062 15.931641 L 15.798828 16.640625 C 15.308719 17.043245 14.745852 17.36853 14.117188 17.605469 L 14.115234 17.605469 L 13.072266 18 L 12.683594 20 L 11.314453 20 L 10.925781 18 L 9.8828125 17.605469 C 9.2541467 17.36853 8.6893282 17.043245 8.1992188 16.640625 L 7.3359375 15.933594 L 5.4140625 16.59375 L 4.7285156 15.408203 L 6.265625 14.070312 L 6.0878906 12.974609 L 6.0878906 12.972656 C 6.0276183 12.596088 6 12.280673 6 12 C 6 11.718768 6.026742 11.404282 6.0878906 11.029297 L 6.265625 9.9296875 L 4.7285156 8.59375 L 5.4140625 7.40625 L 7.3359375 8.0683594 L 8.1992188 7.359375 C 8.6893282 6.9567546 9.2541467 6.6314701 9.8828125 6.3945312 L 10.925781 6 L 11.314453 4 z M 12 8 C 9.8034768 8 8 9.8034768 8 12 C 8 14.196523 9.8034768 16 12 16 C 14.196523 16 16 14.196523 16 12 C 16 9.8034768 14.196523 8 12 8 z M 12 10 C 13.111477 10 14 10.888523 14 12 C 14 13.111477 13.111477 14 12 14 C 10.888523 14 10 13.111477 10 12 C 10 10.888523 10.888523 10 12 10 z"/></svg>
+ 	</div>
+  <div class="profile">
+<div class="avatar">
+<img src="image/bear.jpg">
+</div>
+      <div class="status"></div>
+      <div class="progressbar">
+<div class="fullprogress">
+<div class="nowprogress">
+<svg class="sc-RefOD cjRwpv" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" style="width: 40px; height: 40px; transform: translateZ(0px); will-change: transform;margin-left: 100%;transform: translateX(-20%);"><defs><filter id="goo" color-interpolation-filters="sRGB"><feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"></feGaussianBlur><feColorMatrix in="blur" type="matrix" values="1 0 0 0 0
+          0 1 0 0 0
+          0 0 1 0 0
+          0 0 0 25 -9" result="goo"></feColorMatrix><feComposite in="SourceGraphic" in2="goo" operator="atop"></feComposite></filter></defs><g filter="url(#goo)"><rect width="10" height="40" fill="#F9C900"></rect><circle fill="#F9C900" cx="5" cy="5" r="5"><animate id="bubble1anim1" attributeType="XML" attributeName="cx" from="5" to="15" dur="3s" begin="0s; bubble1anim2.end" fill="freeze"></animate><animate id="bubble1anim2" attributeType="XML" attributeName="cx" from="15" to="5" dur="3s" begin="bubble1anim1.end" fill="freeze"></animate></circle><circle fill="#F9C900" cx="5" cy="15" r="5"><animate id="bubble3anim1" attributeType="XML" attributeName="cx" from="5" to="25" dur="2s" begin="0s; bubble3anim4.end" fill="freeze"></animate><animate id="bubble3anim2" attributeType="XML" attributeName="cx" from="25" to="5" dur="2s" begin="bubble3anim1.end" fill="freeze"></animate><animate id="bubble3anim3" attributeType="XML" attributeName="cx" from="5" to="18" dur="3s" begin="bubble3anim2.end" fill="freeze"></animate><animate id="bubble3anim4" attributeType="XML" attributeName="cx" from="18" to="5" dur="3s" begin="bubble3anim3.end" fill="freeze"></animate></circle><circle fill="#F9C900" cx="5" cy="25" r="5"><animate id="bubble5anim1" attributeType="XML" attributeName="cx" from="5" to="17" dur="3s" begin="0s; bubble5anim4.end" fill="freeze"></animate><animate id="bubble5anim2" attributeType="XML" attributeName="cx" from="17" to="5" dur="3s" begin="bubble5anim1.end" fill="freeze"></animate><animate id="bubble5anim3" attributeType="XML" attributeName="cx" from="5" to="13" dur="4s" begin="bubble5anim2.end" fill="freeze"></animate><animate id="bubble5anim4" attributeType="XML" attributeName="cx" from="13" to="5" dur="4s" begin="bubble5anim3.end" fill="freeze"></animate></circle></g></svg>
+</div>
+<div class="progressbar" data-localization="progressbar"></div>
+</div>
+</div>
+</div>
+
+    <div class="segment">
+        <div class="day-wrap"><div class="day">Пн</div> <div class="segment-circle complete"><i class='bx bx-check' ></i></div> </div>
+        <div class="day-wrap"><div class="day">Вт</div> <div class="segment-circle complete"><i class='bx bx-check' ></i></div> </div>
+        <div class="day-wrap"><div class="day">Ср</div> <div class="segment-circle complete"><i class='bx bx-check' ></i></div> </div>
+        <div class="day-wrap"><div class="day">Чт</div> <div class="segment-circle empty"><i class='bx bx-check' ></i></div> </div>
+        <div class="day-wrap"><div class="day">Пт</div> <div class="segment-circle empty"><i class='bx bx-check' ></i></div> </div>
+        <div class="day-wrap"><div class="day">Сб</div> <div class="segment-circle empty"><i class='bx bx-check' ></i></div> </div>
+        <div class="day-wrap"><div class="day">Нд</div> <div class="segment-circle empty"><i class='bx bx-check' ></i></div> </div>
+    </div>
+
+<!--<div class="words">
+<div class="repeat">
+<img src="image/know.jpg">
+<div class="black"></div>
+<span class="repeat" data-localization="repeat"></span>
+</div>
+<div class="learn">
+<img src="image/learnimg.jpg">
+    <div class="black"></div>
+<span class="learn" data-localization="learn"></span>
+</div>
+</div>-->
+
+<script src="js/stage.js"></script>
+<script src="js/localization.js"></script>
+<script>
+let stagesKey = Object.keys(stages);
+reload = ()=>{
+let config = JSON.parse(Android.getConfigJson());
+let xp = config["user"]["xp"];
+stagesKey.forEach(item=>{
+    if(xp >= stages[item]["min"] && xp <= stages[item]["max"]){
+        document.querySelector(".avatar img").src = stages[item]["image"];
+        document.querySelector(".status").innerText = language_pack[item];
+        document.querySelector(".nowprogress").style.width = (xp-stages[item]["min"])/(stages[item]["max"]-stages[item]["min"])*100+"%";
+    }
+});
+}
+reload();
+var eventMethod = window.addEventListener ?
+    "addEventListener" :
+    "attachEvent";
+var eventer = window[eventMethod];
+var messageEvent = eventMethod === "attachEvent" ?
+    "onmessage" :
+    "message";
+eventer(messageEvent, function(e) {
+    if (e.data === "reload" || e.message === "reload") {
+        reload();
+    }
+});
+</script>
+ </body>

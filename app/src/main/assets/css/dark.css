@@ -1,0 +1,98 @@
+body .clip {
+	 z-index: 2;
+	 position: absolute;
+	 top: 50%;
+	 left: 40px;
+	 width: 0rem;
+	 height: 0rem;
+	 border-radius: 50%;
+}
+ body .clip.anim {
+	 animation: open 1.5s ease-in-out;
+}
+ @keyframes open {
+	 0% {
+		 top: 50%;
+		 left: 2rem;
+		 width: 0rem;
+		 height: 0rem;
+		 clip-path: circle(0rem at center);
+	}
+	 100% {
+		 top: calc(-250vmax + 50%);
+		 left: calc(-250vmax + 40px);
+		 width: 500vmax;
+		 height: 500vmax;
+		 clip-path: circle(100% at center);
+	}
+}
+ body main {
+	 position: fixed;
+	 top: 0px;
+	 left: 0px;
+	 right: 0px;
+	 bottom: 0px;
+	 background: var(--background);
+	 color: var(--color);
+}
+ body main:not(.dark) {
+	 --tooltip-background: #1c1b20;
+	 --tooltip-color: #bd335f;
+	 --background: #fcfbfe;
+	 --color: #323133;
+	 --moon:1;
+	 --sun:0;
+
+}
+ body main.dark {
+	--tooltip-background: #bd335f;
+	--tooltip-color: #1c1b20;
+	--background: #1c1b20;
+	--color: #f5f7fa;
+	--moon:0;
+	--sun:1;
+}
+
+.darkmode{
+	position: fixed;
+    left: 0;
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 35px;
+    width: 45px;
+    padding-right: 5px;
+    transition: all 1s;
+    z-index: 10;
+
+}
+.darkmode:not(.dark){
+	background: #1c1b20;
+	color: #fff;
+}
+.darkmode.dark{
+	background: #fcfbfe;
+	color: #000;
+}
+.darkmode:not(.dark) .darkmode_icons .moon, .darkmode.dark .darkmode_icons .sun{
+ opacity: 1;
+}
+.darkmode.dark .darkmode_icons .moon, .darkmode:not(.dark) .darkmode_icons .sun{
+ opacity: 0;
+}
+.darkmode_icons{
+	position: relative;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+
+}
+.darkmode .darkmode_icons i{
+	position: absolute;
+    font-size: 18px;
+}

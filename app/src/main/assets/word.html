@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/materialize.min.css">
+    <link rel="stylesheet" href="css/word.css">
+    <link rel="stylesheet" href="css/learn.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link rel="stylesheet" href="css/icons.css">
+    <script>
+        let wordJson = JSON.parse(Android.getWordJson());
+    </script>
+    <style>
+        .select_word_wrap{
+			width: 100%;
+			height: 100%;
+			position: absolute;
+			display: grid;
+            grid-template-columns: 45vw 45vw;
+            grid-auto-rows: 50vw;
+            gap: 3vw;
+            padding: 3.5vw;
+			background: #eff0f4;
+			visibility: hidden;
+			opacity: 0;
+			transition: 0.5s;
+			top: 0;
+			left: 0;
+			overflow: auto;
+		}
+		.select_word_wrap .flip-card{
+		    position: static;
+		    border: none;
+		    margin: inherit;
+		    width: auto;
+		    height: 45vw;
+		}
+		.select_word_wrap .card-word, .selected_word_wrap .translate {
+		    font-size: 20px;
+		}
+		.select_word_wrap .flip-card .rotate-ico{
+		    left: 50%;
+		    transform: translate(-50%, -50%);
+		    position: absolute;
+		}
+		.select_word_wrap .word-card{
+		  position: static;
+          background: white;
+          border-radius: 8px;
+        }
+		.select_word_wrap.active{
+		    visibility: visible;
+			opacity: 1;
+		}
+		.select_word_wrap .card-word{
+		    background: white;
+            border-radius: 8px;
+		}
+    </style>
+</head>
+<body>
+<div class="blur_background"></div>
+<div class="more_word_alert"><img src="image/sh.png"><span>Необхідно додати щонайменше п'ять слів. Бажаєте додати?</span> <div><button class="cancel">Ні</button> <button class="confirm">Так</button></div></div>
+
+<div class="learn_wrap">
+
+    <div class="congratuation_wrap">
+        <div class="congratuation" data-localization="congratuation"></div>
+        <div class="cup"><img src="image/trophy.png" alt=""></div>
+        <div class="xp">+100xp</div>
+        <button>Продовжити</button>
+    </div>
+    <div class="carousel carousel-slider center">
+        <div class="carousel-fixed-item center carousel-header-wrap">
+            <div class="carousel-header ">
+                <div class="carousel-close">
+                    <img src="image/close.png" alt="">
+                </div>
+                <div class="stage">
+                    <div>1/5</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="carousel-fixed-item center">
+            <div class="slide-id center">1/5</div>
+        </div>
+        <div class="carousel-item white-text" data-id="1">
+
+        </div>
+        <div class="carousel-item white-text" data-id="2">
+        </div>
+
+        <div class="carousel-item white-text" data-id="3">
+        </div>
+
+        <div class="carousel-item white-text" data-id="4">
+        </div>
+
+        <div class="carousel-item white-text" data-id="5">
+        </div>
+    </div>
+</div>
+
+
+<header>
+
+    <div class="header_bg"></div>
+    <div class="guru_livitation">
+        <div class="guru">
+            <img src="image/sh.png" alt="">
+        </div>
+        <div class="shadow">
+            <img src="image/unnamed.png" alt="">
+        </div>
+    </div>
+    <div class="recomendate" data-localization="recomendate"></div>
+</header>
+
+<div class="wrap_button">
+    <button class="learn" onclick="setupLearn()" data-localization="learn"></button>
+    <button class="repeat" onclick="setupRepeat()" data-localization="repeat"></button>
+</div>
+<div>
+    <canvas class="myChart"></canvas>
+</div>
+<!--<div onclick="Android.openTelegramBot()" class="telegram_bot">-->
+<!-- <section class="mask">-->
+<!--    <div class="localization learnTeleg"></div>-->
+<!--    <img src="image/output-onlinepngtools.png" alt="">-->
+<!--    <img src="image/output-onlinepngtools.png" alt="">-->
+<!-- </section>-->
+<!-- </div>-->
+
+<div class="select_word_wrap">
+<!--    <div class="word-card"></div>-->
+
+</div>
+
+
+<script>
+		let select_word_wrap = document.querySelector(".select_word_wrap");
+		let cardWords = JSON.parse(Android.getWordByLimit());
+		cardWords.forEach(item=>{
+		select_word_wrap.insertAdjacentHTML('beforeend', `<div class="card-word">${item["original"]}</div>`)
+		});
+
+
+	</script>
+<script src="js/localization.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+<script>
+    let draggAllow = true;
+</script>
+<script src="js/materialize.min.js"></script>
+<script src="js/Chart.min.js"></script>
+<script>
+let chart;
+const learn_button = document.querySelector(".learn").appendChild(document.createElement('span'));
+const repeat_button = document.querySelector(".repeat").appendChild(document.createElement('span'));
+const blur_bg = document.querySelector('.blur_background');
+const more_word_alert = document.querySelector('.more_word_alert');
+const more_word_alert_cancel = more_word_alert.querySelector('.cancel');
+const more_word_alert_confirm = more_word_alert.querySelector('.confirm');
+
+learn_button.innerText = wordJson.config.learnCount;
+repeat_button.innerText = wordJson.config.repeatCount;
+update = () => {
+    wordJson = JSON.parse(Android.getWordJson());
+    chart.update();
+    learn_button.innerText = wordJson.config.learnCount;
+    repeat_button.innerText = wordJson.config.repeatCount;
+}
+var eventMethod = window.addEventListener ?
+    "addEventListener" :
+    "attachEvent";
+var eventer = window[eventMethod];
+var messageEvent = eventMethod === "attachEvent" ?
+    "onmessage" :
+    "message";
+eventer(messageEvent, function(e) {
+    if (e.data === "reload" || e.message === "reload") {
+        update();
+    }
+});
+const labels = language_pack["days"];
+const data = {
+    labels: labels,
+    datasets: [{
+        label: 'Прогрес',
+        data: wordJson.config.statistic,
+        cubicInterpolationMode: 'monotone',
+        backgroundColor: 'rgba(96, 183, 241, 0.5)',
+        borderColor: '#60b7f1',
+    }]
+};
+const config = {
+    type: 'line',
+    data: data,
+    options: {
+        responsive: true,
+        backgroundColor: "red",
+        plugins: {
+            legend: {
+                position: "top"
+            }
+        },
+        layout: {
+            padding: {
+                left: 20,
+                right: 40
+            }
+        }
+    }
+};
+chart = new Chart(
+    document.querySelector('.myChart'),
+    config
+);
+
+closeLearnElement = () => {
+    parent.postMessage("min", "*");
+    learn_wrap.classList.remove('active');
+}
+document.querySelector('.carousel-close').addEventListener('click', () => {
+    closeLearnElement();
+});
+more_word_alert_confirm.addEventListener('click', ()=>{
+    more_word_alert.classList.remove('active');
+    blur_bg.classList.remove('active');
+
+    parent.postMessage("full", "*");
+    select_word_wrap.classList.add('active');
+})
+more_word_alert_cancel.addEventListener('click', ()=>{
+    more_word_alert.classList.remove('active');
+    blur_bg.classList.remove('active');
+})
+const createSquare = () => {
+    const section = document.querySelector('.header_bg');
+    const square = document.createElement('span');
+    var size = Math.random() * 50;
+    square.style.width = 20 + size + 'px';
+    square.style.height = 20 + size + 'px';
+    square.style.left = Math.random() * section.offsetWidth + 'px';
+    square.style.top = Math.random() * section.offsetHeight + 'px';
+    let colors = ['#ffb5b1', '#ffe07b', '#0d2e79', '#0c7b82', '#07d18d']
+    square.style.background = colors[Math.floor(Math.random() * colors.length)];
+    section.appendChild(square);
+    setTimeout(function() {
+        square.remove();
+    }, 5000)
+}
+setInterval(createSquare, 500)
+
+</script>
+<script src="js/learn.js"></script>
+</body>
+</html>

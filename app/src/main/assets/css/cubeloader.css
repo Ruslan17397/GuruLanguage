@@ -1,0 +1,129 @@
+ .cube-folding {
+	 width: 100px;
+	 height: 100px;
+	 display: inline-block;
+	 transform: rotate(45deg);
+	 font-size: 0;
+}
+ .cube-folding span {
+	 position: relative;
+	 width: 50px;
+	 height: 50px;
+	 transform: scale(1.1);
+	 display: inline-block;
+}
+ .cube-folding span::before {
+	 content: "";
+	 background-color: #60b7f1;
+	 position: absolute;
+	 left: 0;
+	 top: 0;
+	 display: block;
+	 width: 50px;
+	 height: 50px;
+	 transform-origin: 100% 100%;
+
+	 animation: folding 2.5s infinite linear both;
+}
+ .cube-folding .leaf2 {
+	 transform: rotateZ(90deg) scale(1.1);
+}
+ .cube-folding .leaf2::before {
+	 animation-delay: 0.3s;
+	 background-color: #49acef;
+}
+ .cube-folding .leaf3 {
+	 transform: rotateZ(270deg) scale(1.1);
+}
+ .cube-folding .leaf3::before {
+	 animation-delay: 0.9s;
+	 background-color: #49acef;
+}
+ .cube-folding .leaf4 {
+	 transform: rotateZ(180deg) scale(1.1);
+}
+ .cube-folding .leaf4::before {
+	 animation-delay: 0.6s;
+	 background-color: #31a2ed;
+}
+
+ @keyframes folding {
+	 0%, 10% {
+		 -webkit-transform: perspective(140px) rotateX(-180deg);
+		 -moz-transform: perspective(140px) rotateX(-180deg);
+		 transform: perspective(140px) rotateX(-180deg);
+		 -webkit-opacity: 0;
+		 -moz-opacity: 0;
+		 opacity: 0;
+	}
+	 25%, 75% {
+		 -webkit-transform: perspective(140px) rotateX(0deg);
+		 -moz-transform: perspective(140px) rotateX(0deg);
+		 transform: perspective(140px) rotateX(0deg);
+		 -webkit-opacity: 1;
+		 -moz-opacity: 1;
+		 opacity: 1;
+	}
+	 90%, 100% {
+		 -webkit-transform: perspective(140px) rotateY(180deg);
+		 -moz-transform: perspective(140px) rotateY(180deg);
+		 transform: perspective(140px) rotateY(180deg);
+		 -webkit-opacity: 0;
+		 -moz-opacity: 0;
+		 opacity: 0;
+	}
+}
+ .cube-wrapper {
+	 position: fixed;
+	 left: 0;
+	 top: 0;
+	 width: 100%;
+	 height: 100%;
+	 background: white;
+	 z-index: 100;
+	 display: flex;
+	 justify-content: center;
+	 align-items: center;
+	 opacity: 0;
+	 visibility: hidden;
+	 transition: 0.5s;
+}
+.progress-wrapper{
+	position: absolute;
+	height: 5px;
+	width: 60%;
+	left: 20%;
+	bottom: 30px;
+	display: flex;
+	align-items: center;
+	font-size: 14px;
+}
+.progress-bar{
+	background: #e5e5e5;
+	position: relative;
+	border-radius: 8px;
+	overflow: hidden;
+	height: 100%;
+	width: 100%;
+}
+.progress{
+	background-color: #60b7f1;
+	position: absolute;
+	height: 100%;
+	width: 0%;
+	transition: .2s;
+}
+.percentage{
+    color: #60b7f1;
+    font-family: sans-serif;
+    margin-left: 5px;
+}
+.progress.active{
+	width: 100%;
+}
+
+.cube-wrapper.active{
+    visibility: visible;
+    opacity: 1;
+}
+

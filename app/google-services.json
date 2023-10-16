@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "834215862684",
+    "project_id": "gurulanguage-b29ee",
+    "storage_bucket": "gurulanguage-b29ee.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:834215862684:android:1a89a906a54fd4d1a8e859",
+        "android_client_info": {
+          "package_name": "com.example.gurulanguage"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "834215862684-5vf9v6avn0in4pt7nt9a0fb50ba8vvnq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDVg4935zBq7g8Kh3YguV1fqYiWMZFJLQ0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "834215862684-5vf9v6avn0in4pt7nt9a0fb50ba8vvnq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

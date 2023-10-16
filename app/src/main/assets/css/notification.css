@@ -1,0 +1,94 @@
+.notification{
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #e64a1996;
+    padding: 20px 30px;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 18px 50px -10px;
+    white-space: nowrap;
+    color: white;
+    font-size:17px;
+    font-family: sans-serif;
+    visibility: hidden;
+    opacity: 0;
+    transition: all 0.5s;
+    z-index:999;
+}
+.notification.active{
+top: 30px;
+visibility: visible;
+opacity: 1;
+}
+.toast{
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.5s;
+	position: fixed;
+	top: 10px;
+	left: 5%;
+    width: 90%;
+    height: 80px;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 7px;
+    display: grid;
+    grid-template-columns: 1.3fr 6fr 0.5fr;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.08);
+    font-family: "Poppins",sans-serif;
+    z-index: 3;
+}
+.toast.active{
+opacity: 1;
+visibility: visible;
+}
+
+.success{
+    border-left: 8px solid #47D764;
+}
+.error{
+    border-left: 8px solid #ff355b;
+}
+
+.error i{
+    color: #ff355b;
+}
+
+.toast:not(:last-child){
+    margin-bottom: 50px;
+}
+.container-1,.container-2{
+    align-self: center;
+}
+.container-1 i{
+    font-size: 35px;
+}
+.success i{
+    color: #47D764;
+}
+.container-2 p:first-child{
+    font-weight: 600;
+    font-size: 16px;
+}
+.toast.success .container-2 p:first-child{
+    color: #47D764;
+}
+.toast.success .container-2 p:first-child{
+    color: #ff355b;
+}
+.container-2 p.toast-text{
+    font-size: 12px;
+    font-weight: 400;
+}
+
+.toast button{
+    align-self: flex-start;
+    background: none;
+    font-size: 25px;
+    color: #656565;
+    line-height: 0;
+    cursor: pointer;
+    outline: none;
+    border: none;
+}

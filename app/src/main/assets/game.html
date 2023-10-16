@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <style>
+    @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500&display=swap');
+    *{
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+    }
+    .wrapper {
+  display: grid;
+  grid-template-columns: 45vw 45vw;
+  gap: 3vw;
+  padding: 3.5vw;
+}
+.wrapper > div{
+  height: 45vw;
+   display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+}
+.wrapper > div > div{
+  height: 25vw;
+  width: 100%;
+  background:#a1c1f1;
+  border-radius: 8px;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: sans-serif;
+  font-size: 7vw;
+  font-family: 'Oswald', sans-serif;
+}
+.wrapper > div img{
+    height: 20vw;
+    transform: translateY(30%);
+}
+
+
+
+
+
+
+
+
+
+
+    .flex-container{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 90%;
+    }
+    .game-container{
+      position: absolute;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: 100%;
+      top:0;
+      left: 0;
+      overflow: hidden;
+      background: white;
+      visibility: hidden;
+      opacity: 0;
+    }
+    .game-container.active{
+        visibility: visible;
+        opacity: 1;
+    }
+    .game-item{
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      font-size: 1.5rem;
+      margin: 5px;
+      overflow: hidden;
+      border-radius: 6px;
+      border: 2px solid #fff;
+    }
+    .game-item .img-wrap{
+      width: 100%;
+      text-align: center;
+      padding: 5px;
+    }
+    .game-item img{
+      width: 80%;
+    }
+    .game-item span{
+      color: white;
+      font-family: sans-serif;
+      font-size: 20px;
+      background: #60b7f1;
+      width: 100%;
+      text-align: center;
+    }
+    .game-item.empty{
+      border-color: #60b7f1;
+      border-bottom: none;
+    }
+    .game-item.wrong{
+         border-color: #e91e63;
+    }
+    .game-item.wrong span{
+        background: #e91e63;
+    }
+    .game-item.empty img{
+      opacity: 0;
+    }
+    .game-item.active{
+      box-shadow: 0 0 5px #60b7f1;
+      transition: .2s;
+    }
+
+    button{
+      margin-top: 20px;
+      border: none;
+      background: #60b7f1;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 6px;
+      font-family: sans-serif;
+      font-size: 1em;
+    }
+    .scroll-wrap{
+      display: flex;
+      width: 96vw;
+      overflow-x: scroll;
+      height: 80px;
+      margin: 20px 0 0 4vw;
+    }
+    .scroll-wrap::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* Hide scrollbar for IE, Edge, and Firefox */
+    .scroll-wrap {
+      -ms-overflow-style: none;  /* IE and Edge */
+      scrollbar-width: none;  /* Firefox */
+    }
+
+    .info{
+      font-family: sans-serif;
+      display: flex;
+      align-items: center;
+      width: 96vw;
+      margin-left: 4%;
+      color: #b7b3c3;
+      font-size: 14px;
+      margin-top: 30px;
+    }
+    .info span{
+      width: 25px;
+      height: 25px;
+      border-radius: 50%;
+      background: #b7b3c3;
+      color: white;
+      display: inline-block;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-right: 10px;
+    }
+    .scroll-item{
+      min-width: 60px;
+      height: 60px;
+      margin-right: 20px;
+    }
+    .scroll-wrap .scroll-item img{
+      width: 60px;
+    }
+    .game-container .head{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      position: absolute;
+      top: 30px;
+      padding: 0 20px;
+    }
+    .game-container .head .title{
+      font-size: 20px;
+    }
+    .game-container .head .back{
+      color: #b7b3c3;
+    }
+    .relative-wrap{
+      position: relative;
+    }
+    .relative-wrap > *{
+      position: absolute;
+    }
+    .draggable-wrap, .button-wrap, .relative-wrap{
+      text-align: center;
+      width: 100%;
+      transition: .4s;
+    }
+    .draggable-wrap, .button-wrap.active, .black-background, .win-screen{
+      visibility: hidden;
+      opacity: 0;
+    }
+    .draggable-wrap.active, .button-wrap, .win-screen.active, .black-background.active{
+      visibility: visible;
+      opacity: 1;
+    }
+    .black-background, .win-screen{
+        left: 0;
+        position: fixed;
+        width: 100%;
+    }
+    .black-background{
+        top: 0;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+    }
+    .win-screen{
+        background: white;
+        height: 40%;
+        border-radius: 8px 8px 0 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        bottom: 0;
+    }
+    .win-screen *{
+        transform: translateY(-20vw);
+    }
+    .win-screen span{
+       font-size: 2.2em;
+       color: #60b7f1;
+       margin: 20px 0;
+    }
+    .win-screen img{
+        width: 40%;
+    }
+  </style>
+</head>
+<body>
+
+
+<div class="wrapper"></div>
+
+<div class="game-container">
+    <div class="head">
+        <div class="back">
+            <i class="material-icons">arrow_back</i>
+        </div>
+        <div class="title">Домашні тварини</div>
+        <div></div>
+    </div>
+    <div class="flex-container">
+        <div class="game-item"><div class="img-wrap"><img src="" alt=""></div> <span></span></div>
+        <div class="game-item"><div class="img-wrap"><img src="" alt=""></div> <span></span></div>
+        <div class="game-item"><div class="img-wrap"><img src="" alt=""></div> <span></span></div>
+    </div>
+    <div class="flex-container">
+        <div class="game-item"><div class="img-wrap"><img src="" alt=""></div> <span></span></div>
+        <div class="game-item"><div class="img-wrap"><img src="" alt=""></div> <span></span></div>
+        <div class="game-item"><div class="img-wrap"><img src="" alt=""></div> <span></span></div>
+    </div>
+    <div class="flex-container">
+        <div class="game-item"><div class="img-wrap"><img src="" alt=""></div> <span></span></div>
+        <div class="game-item"><div class="img-wrap"><img src="" alt=""></div> <span></span></div>
+        <div class="game-item"><div class="img-wrap"><img src="" alt=""></div> <span></span></div>
+    </div>
+    <div class="relative-wrap">
+        <div class="button-wrap">
+            <button class="start-game">Запам'ятав</button>
+        </div>
+        <div class="draggable-wrap">
+            <div class="info"><span>?</span>Перетяніть іконку на потрібне слово</div>
+            <div class="scroll-wrap">
+                <div class="scroll-item"><img src="" alt=""></div>
+                <div class="scroll-item"><img src="" alt=""></div>
+                <div class="scroll-item"><img src="" alt=""></div>
+                <div class="scroll-item"><img src="" alt=""></div>
+                <div class="scroll-item"><img src="" alt=""></div>
+                <div class="scroll-item"><img src="" alt=""></div>
+                <div class="scroll-item"><img src="" alt=""></div>
+                <div class="scroll-item"><img src="" alt=""></div>
+                <div class="scroll-item"><img src="" alt=""></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="black-background"></div>
+<section class="win-screen">
+    <img src="image/crown.png" alt="">
+    <span>Перемога</span>
+    <button class="end-game">Завершити</button>
+</section>
+
+<script src="js/localization.js"></script>
+<script>
+
+    let wrapper = document.querySelector(".wrapper");
+
+    let themes = {
+        "Pets": ["dog", "cat", "horse", "cow", "pig", "sheep", "goat", "turkey", "chicken"],
+        "Birds": ["dove", "eagle", "duck", "swan", "owl", "dodo", "flamingo", "peacock", "parrot"],
+    }
+
+    Object.keys(themes).forEach(function(k){
+        wrapper.insertAdjacentHTML("afterbegin", `<div onclick='startGame("${k}")'><img src="image/emoji/${k}/1.png" alt=""><div>${language_pack[k]}</div></div>`);
+    });
+
+
+    // Function to shuffle an array
+const shuffleArray = (array) => {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+}
+
+// Get elements and initialize variables
+const gameItems = Array.from(document.querySelectorAll('.game-item'));
+const scrollItems = Array.from(document.querySelectorAll('.scroll-item'));
+
+const flexContainers = document.querySelectorAll('.flex-container');
+const winScreen = document.querySelector('.win-screen');
+const winScreenBackground = document.querySelector('.black-background');
+const gameContainer = document.querySelector('.game-container');
+const titleGame = document.querySelector(".title");
+const closeGameBtn = gameContainer.querySelector(".back");
+const buttonWrap = document.querySelector('.button-wrap');
+const draggableWrap = document.querySelector('.draggable-wrap');
+const button = document.querySelector('.start-game');
+const endButton = document.querySelector('.end-game');
+const scrollWrap = document.querySelector('.scroll-wrap');
+const images = scrollWrap.querySelectorAll('img');
+
+
+const offsetX = new Map();
+const offsetY = new Map();
+
+let changedCard = 0;
+let currentTheme;
+
+// Function to detect element by point
+const detectElementByPoint = (x, y) => {
+  let detectedItem;
+  gameItems.forEach(item => {
+    let itemRect = item.getBoundingClientRect();
+    if (itemRect.left < x && itemRect.right > x && itemRect.top < y && itemRect.bottom > y) {
+      item.classList.add("active");
+      detectedItem = item;
+    } else if (item.classList.contains("active")) {
+      item.classList.remove("active");
+    }
+  })
+  return detectedItem;
+}
+
+// Function to handle touch move
+const move = (e) => {
+  let coordX = e.touches[0].clientX;
+  let coordY = e.touches[0].clientY;
+
+  detectElementByPoint(coordX, coordY);
+
+  e.target.style.left = `${coordX - offsetX.get(e.target)}px`;
+  e.target.style.top = `${coordY - offsetY.get(e.target)}px`;
+}
+
+// Function to handle touch start
+const touchStart = (e) => {
+  let item = e.target;
+  let bound = item.getBoundingClientRect();
+  offsetX.set(item, e.changedTouches[0].clientX - bound.x);
+  offsetY.set(item, e.changedTouches[0].clientY - bound.y);
+  item.style.position = `fixed`;
+  item.style.height = `60px`;
+  item.style.left = `${e.changedTouches[0].clientX - offsetX.get(item)}px`;
+  item.style.top = `${e.changedTouches[0].clientY - offsetY.get(item)}px`;
+  item.addEventListener('touchmove', move);
+}
+
+// Function to handle touch end
+const touchEnd = (e) => {
+  let coordX = e.changedTouches[0].clientX;
+  let coordY = e.changedTouches[0].clientY;
+  let item = e.target;
+  item.removeEventListener('touchmove', move);
+  let changeItem = detectElementByPoint(coordX, coordY);
+  if (changeItem && changeItem.classList.contains("empty")) {
+    changeItem.classList.remove("empty");
+    changeItem.querySelector('img').src = item.src;
+    changeItem.querySelector('img').dataset.id = item.parentNode.dataset.id;
+    changeItem.classList.remove("active");
+    changedCard++;
+
+
+    if (changedCard === 9) {
+        let isNotCorrect = true;
+        gameItems.forEach(gameItem=>{
+            if(gameItem.querySelector("span").innerText != gameItem.querySelector("img").dataset.id){
+                gameItem.classList.add("wrong");
+                button.innerText = "Заново";
+                button.classList.add("repeat");
+                buttonWrap.classList.remove("active");
+                button.removeEventListener('click', shuffleCard);
+                button.addEventListener('click', ()=>{
+                button.innerText = "Запам'ятав";
+                button.classList.remove("repeat");
+                button.addEventListener('click', shuffleCard);
+                    startGame(currentTheme);
+                });
+                draggableWrap.classList.remove("active");
+                isNotCorrect = false;
+            }
+        });
+        if(isNotCorrect){
+             winScreen.classList.add("active");
+             winScreenBackground.classList.add("active");
+        }
+    }
+    item.parentNode.style = "display: none;";
+  } else {
+    item.style = '';
+  }
+
+}
+
+// Add event listeners
+
+shuffleCard = ()=>{
+      changedCard = 0;
+  buttonWrap.classList.add("active");
+  draggableWrap.classList.add("active");
+  shuffleArray(gameItems);
+  flexContainers.forEach(container => {
+    container.innerHTML = '';
+  });
+  let containerIndex = 0;
+  gameItems.forEach(item => {
+    item.classList.add("empty");
+    flexContainers[containerIndex].appendChild(item);
+    containerIndex = (containerIndex + 1) % flexContainers.length;
+  });
+}
+button.addEventListener('click', shuffleCard);
+
+images.forEach(item => {
+  item.addEventListener('touchstart', touchStart);
+  item.addEventListener('touchend', touchEnd);
+});
+
+closeGame = ()=>{
+    parent.postMessage("min", "*");
+    gameContainer.classList.remove("active");
+    gameItems.forEach(item => {
+        item.classList.remove("empty");
+    });
+    buttonWrap.classList.remove("active");
+    draggableWrap.classList.remove("active");
+}
+closeGameBtn.addEventListener('click', ()=>{
+    closeGame();
+});
+
+    startGame = (theme)=>{
+    currentTheme = theme;
+        let path = `image/emoji/${theme}/`;
+        parent.postMessage("full", "*");
+        for(let i = 0; i < 9; i++){
+            let gameItem = gameItems[i];
+            let scrollItem = scrollItems[i];
+            scrollItem.querySelector("img").style = "";
+            scrollItem.style = "";
+            if(button.classList.contains("repeat")){
+                button.innerText = "Запам'ятав";
+                button.classList.remove("repeat");
+                button.addEventListener('click', shuffleCard);
+            }
+            if(gameItem.classList.contains("wrong")){
+                gameItem.classList.remove("wrong");
+            }
+            if(winScreen.classList.contains("active")){
+                winScreen.classList.remove("active");
+                winScreenBackground.classList.remove("active");
+            }
+            gameContainer.classList.add("active");
+            titleGame.innerText = language_pack[theme];
+            gameItem.querySelector('span').innerText = themes[theme][i];
+            scrollItem.querySelector('img').src = `${path}${i + 1}.png`;
+            scrollItem.dataset.id = themes[theme][i];
+
+            gameItem.querySelector('img').src = `${path}${i + 1}.png`;
+
+        }
+    }
+    endButton.addEventListener('click', ()=>{
+        winScreen.classList.remove("active");
+        winScreenBackground.classList.remove("active");
+        closeGame();
+    });
+</script>
+</body>
+</html>

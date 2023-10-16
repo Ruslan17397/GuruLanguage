@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="../css/preloader.css">
+    <link rel="stylesheet" href="../css/cubeloader.css">
+    <style>
+         @import url('http://fonts.cdnfonts.com/css/sf-pro-display');
+        *{
+            padding: 0;
+            margin: 0;
+        }
+
+        body{
+            background: url(../image/startScreenBg.png);
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        .animate__animated{
+            -webkit-animation-duration:1s;
+            animation-duration:1s;
+            animation-delay:1.2s;
+            animation-fill-mode: forwards;
+            opacity: 0;
+            transition:opacity 1s;
+            transition-delay: 1.2s;
+
+     }
+     .animate__animated.active{ opacity: 1;}
+
+        .start{
+        position: absolute;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: flex-end;
+            overflow: hidden;
+        }
+        .bg, .bg img{
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            z-index: -1;
+        }
+
+
+        .logo{
+            margin:24px;
+        }
+        .logo img{
+            height: 42vw;
+        }
+
+        .title_join{
+            color: #2D2D2F;
+            font-family: 'SF Pro Display', sans-serif;
+            font-size:3em;
+            font-weight: 700;
+            margin-left: 24px;
+        }
+        .join{
+            display: block;
+        }
+        .hide{
+            display: none;
+        }
+        .join_now{
+            width: 90%;
+            margin:50px 5%;
+            background: #383F51;
+            border-radius: 20px;
+            text-align: center;
+            color: white;
+            padding: 15px 0;
+            font-family: 'SF Pro Display', sans-serif;
+        }
+        .select_lang_bg{
+            position: absolute;
+            width: 0;
+            height:0;
+            top:50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background:#383F51;
+            border-radius:50%;
+            transition: all 1.5s;
+        }
+        .select_lang, .select_lang_bg{
+            z-index: 1;
+        }
+        .select_lang_bg.active{
+                width: 200vh;
+                height:200vh;
+        }
+        ul ,li{
+            list-style: none;
+        }
+        .select_lang, .select_learn_lang{
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            visibility: hidden;
+
+
+        }
+        .select_lang.active, .select_learn_lang.active{
+            visibility: visible;
+        }
+        .select_lang li, .select_learn_lang li{
+            background: white;
+            width: 80%;
+            height: 60px;
+            margin:20px 10%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: 'SF Pro Display', sans-serif;
+            font-size: 20px;
+            border-radius: 100px;
+            opacity: 0;
+            color:#60b7f1;
+            overflow: hidden;
+            box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+            box-sizing: border-box;
+        }
+        .select_lang .title_lang, .select_learn_lang .title_learn_lang{
+            text-align: center;
+            font-family: 'SF Pro Display', sans-serif;
+            font-size: 30px;
+            margin: 30px 0;
+            opacity: 0;
+        }
+
+        .select_lang .title_lang{
+            color: white;
+        }
+        .select_lang .title_lang span{
+            font-size: 15px;
+        }
+        .select_learn_lang .title_learn_lang{
+            color: #60b7f1;
+        }
+
+        .select_learn_lang{
+            display: none;
+        }
+
+        .select_learn_lang.active{
+            display: block;
+        }
+
+        .select_lang li img, .select_learn_lang li img{
+            height: 40px;
+            width:40px;
+            border-radius: 50%;
+            margin-left:10px;
+        }
+        .select_lang li input, .select_learn_lang li input{
+            margin-right: 20px;
+            width: 20px;
+            height: 20px;
+        }
+
+        .select_lang.active li, .select_lang.active .title_lang, .select_learn_lang.active li, .select_learn_lang.active .title_learn_lang{
+            animation: 1s linear var(--i)  fade forwards;
+        }
+        .next{
+            position: fixed;
+            width: 70%;
+            height: 60px;
+            background: #60b7f1;
+            border-radius: 100px;
+            bottom: 20px;
+            left:  15%;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'SF Pro Display', sans-serif;
+            font-size: 25px;
+            opacity: 0;
+            display: none;
+        }
+
+        .next.active{
+            display: flex;
+            animation: 1s fade forwards;
+        }
+
+@keyframes fadeInDown{
+    0%{opacity:0;
+        transform:translate3d(0,-100%,0)
+    }
+    to{opacity:1;
+        transform:translateZ(0)
+}
+}
+.animate__fadeInDown{
+    transform:translate3d(0,-100%,0)
+}
+.animate__fadeInDown.active{
+    animation-name:fadeInDown;
+}
+
+@keyframes slideInLeft{
+    0%{
+        transform:translate3d(-100%,0,0);
+        visibility:visible;
+    }
+    to{
+        transform:translateZ(0);
+    }
+}
+.animate__slideInLeft{
+    transform:translate3d(-100%,0,0);
+}
+.animate__slideInLeft.active{
+    animation-name:slideInLeft;
+}
+
+@keyframes slideInUp{
+    0%{
+        transform:translate3d(0,100%,0);
+        visibility:visible
+    }
+    to{
+        transform:translateZ(0)
+    }
+}
+.animate__slideInUp{
+    transform:translate3d(0,100%,0);
+}
+
+.animate__slideInUp.active{
+    animation-name:slideInUp
+}
+
+        @keyframes fade{
+            0%{
+                opacity: 0;
+            }
+            100%{
+                opacity: 1;
+            }
+        }
+
+        .auth{
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-direction: column;
+            text-align: center;
+font-family: system-ui,roboto,sans-serif;
+opacity: 0;
+visibility: hidden;
+transition: opacity .5s;
+        }
+        .auth.active{
+         opacity: 1;
+visibility: visible;
+        }
+        .google_info img{
+            width: 40%;
+            margin-top: 30%;
+        }
+         .google_info h1{
+            color: black;
+font-size: 40px;
+         }
+         .auth_btn{
+            width: 90%;
+  margin-bottom: 50px;
+  font-weight: 500;
+         }
+         .auth_btn .skip{
+            margin-top: 10px;
+         }
+        .google_auth_btn{
+            padding: 15px 0;
+            border-radius: 100px;
+background: white;
+   font-size: 18px;
+  box-sizing: border-box;
+  border: 1px solid #d6d9dc;
+  color: #535a60;
+  border-color: #d6d9dc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+        }
+        .google_auth_btn img{
+            width: 25px;
+            margin-right: 5%;
+        }
+     </style>
+</head>
+<body>
+
+<div class="splash">
+    <div class="splash_logo">
+        <img src="../image/sh.png" alt="">
+    </div>
+    <div class="txtlogo">GuruLanguage</div>
+</div>
+
+<div class="cube-wrapper">
+    <div class="cube-folding">
+        <span class="leaf1"></span>
+        <span class="leaf2"></span>
+        <span class="leaf3"></span>
+        <span class="leaf4"></span>
+    </div>
+
+    <div class="progress-wrapper">
+        <div class="progress-bar">
+            <div class="progress"></div>
+        </div>
+
+        <div class="percentage">0%</div>
+    </div>
+</div>
+
+<div class="start">
+
+    <div class="select_lang_bg"></div>
+
+    <ul class="select_lang">
+        <div style="--i:.2s" class="title_lang">Native language<br><span>Рідна мова</span></div>
+
+        <div class="next">Далі ></div>
+
+    </ul>
+
+    <ul class="select_learn_lang">
+        <div style="--i:.2s" class="title_learn_lang">Вивчатимеш</div>
+
+        <div class="next"><span>Далі</span> ></div>
+
+    </ul>
+
+
+
+    <div class="join">
+        <div class="logo animate__animated animate__fadeInDown">
+            <img src="../image/sh.png" alt="">
+        </div>
+
+        <div class="title_join animate__animated animate__slideInLeft">
+            LET’S GET STARTED
+        </div>
+        <div class="join_now animate__animated animate__slideInUp">
+            JOIN NOW
+        </div>
+    </div>
+
+    <div class="auth">
+        <div class="google_info"><img src="../image/google-logo.png" alt=""><h1>Авторизація</h1><p>Збережіть свої досягнення</p></div>
+
+        <div class="auth_btn">
+            <div class="google_auth_btn" >
+                <img src="../image/google-logo.png" alt="">Sign in with Google
+            </div>
+            <div class="skip">Пропустити</div>
+        </div>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+<script>
+let join_now = document.querySelector('.join_now')
+let join = document.querySelector('.join')
+let select_lang_bg = document.querySelector('.select_lang_bg')
+let select_lang = document.querySelector('.select_lang')
+let select_learn_lang = document.querySelector('.select_learn_lang')
+let next_lang = document.querySelector('.select_lang .next')
+let next_learn_lang = document.querySelector('.select_learn_lang .next')
+let animated_els = document.querySelectorAll('.animate__animated')
+let loaderDataBase = document.querySelector('.cube-wrapper')
+let loaderDataBaseProgress = loaderDataBase.querySelector('.progress-wrapper .progress')
+let loaderDataBasePercentage = loaderDataBase.querySelector('.progress-wrapper .percentage')
+
+let code1 = "";
+let code2 = "";
+
+let google_auth = document.querySelector('.google_auth_btn')
+let google_auth_skip = document.querySelector('.skip')
+
+
+let languages = Android.getData("http://english.ho.ua/languages.php");
+let languages_list = JSON.parse(languages);
+languages_list.forEach((item, i) => {
+    //--------------------------------------------------
+    let select_lang_item = document.createElement('li');
+    select_lang_item.style = `--i: ${0.5 + (0.3 * i)}s`;
+    select_lang_item.innerHTML = `<img src="${item.icon2}"><div>${item.to}</div> <input type="radio" name="lang" value="${item.code2}"/>`;
+    select_lang_item.addEventListener('click', () => {
+        let radio = select_lang_item.querySelector('input');
+        radio.checked = true;
+        if(!next_lang.classList.contains('active')) next_lang.classList.add('active');
+        code2 = radio.value;
+    })
+    select_lang.appendChild(select_lang_item);
+    //--------------------------------------------------
+})
+
+join_now.addEventListener('click', () => {
+    select_lang_bg.classList.add('active')
+    select_lang.classList.add('active')
+})
+
+showAuth = ()=>{
+     document.querySelector('.auth').classList.add('active');
+    loaderDataBase.classList.remove("active");
+}
+updateProgress = (progress)=>{
+    loaderDataBaseProgress.style.width = progress+"%";
+    loaderDataBasePercentage.innerText = progress+"%";
+}
+next_lang.addEventListener('click', () => {
+    const filteredItems = languages_list.filter(item => item.code2 === code2);
+    filteredItems.forEach((item, i) => {
+        let select_learn_lang_item = document.createElement('li');
+        select_learn_lang_item.style = `--i: ${0.5 + (0.3 * i)}s`;
+        select_learn_lang_item.innerHTML = `<img src="${item.icon1}"><div>${item.from}</div> <input type="radio" name="lang" value="${item.code1}"/>`;
+        select_learn_lang_item.addEventListener('click', () => {
+            let radio = select_learn_lang_item.querySelector('input');
+            select_learn_lang_item.querySelector('input').checked = true;
+            if(!next_learn_lang.classList.contains('active')) next_learn_lang.classList.add('active');
+            code1 = radio.value;
+        })
+        select_learn_lang.appendChild(select_learn_lang_item);
+
+    })
+    join.classList.add('hide')
+    select_learn_lang.classList.add('active')
+    select_lang_bg.classList.remove('active')
+    select_lang.classList.remove('active')
+})
+google_auth_skip.addEventListener('click', () => {
+    Android.firstLaunchSuccess();
+})
+google_auth.addEventListener('click', () => {
+    Android.googleAuth();
+})
+next_learn_lang.addEventListener('click', () => {
+    select_learn_lang.classList.remove('active')
+
+    let from = "";
+    let to = "";
+    languages_list.forEach(item => {
+        if(item.code1 == code1 && item.code2 == code2) {
+            from = item.from;
+            to = item.to;
+        }
+    })
+    loaderDataBase.classList.add("active");
+    Android.setStartConfig(from, to, code1, code2)
+})
+
+window.addEventListener('load', () => {
+    animated_els.forEach(el => {
+        el.classList.add('active')
+    })
+    document.querySelector(".splash .splash_logo").style.transform = "scale(1.5)";
+    setTimeout(() => {
+        document.querySelector(".splash").classList.add("hide_trans");
+    }, 200);
+});
+    </script>
+</html>
